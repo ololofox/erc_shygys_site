@@ -1,81 +1,166 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+  <q-layout>
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+    <!-- Overlay для спиннера -->
+    <div class="overlay" v-if="isLoading">
+      <div style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
+        <q-spinner-facebook
+          color="light-blue"
+          size="4em"
+        />
+      </div>
+    </div>
 
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
+    <!-- HEADER -->
+    <q-header elevated class="app-header">
+
+      <LanguageSwitcher />
+
+      <!-- Картинка с текстом -->
+      <div class="header-image">
+        <img src="/header__.png" alt="header" />
+
+        <div class="header-overlay">
+          <div class="header-text">
+            <h1 class="header-title main-title">ТОО "ЕРЦ Шыгыс"</h1>
+            <h3 class="header-title sub-title">
+              Мы разнесем все, что можно и нельзя
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Меню -->
+      <q-tabs 
+        inline-label 
+        no-caps    
+        :breakpoint="0"
+        class="app-tabs"
+      >
+        <q-route-tab icon="home" :label="t('home')" :to="{ name: 'main' }" />
+        <q-route-tab icon="mail" :label="t('feedback')" :to="{ name: 'feedback' }" />              
+        <q-route-tab icon="person" :label="t('personalAccount')" :to="{ name: 'autor' }" />              
+      </q-tabs>
+
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
-      </q-list>
-    </q-drawer>
-
+    <!-- BODY -->
     <q-page-container>
       <router-view />
     </q-page-container>
+
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+<script>
+import LanguageSwitcher from "components/LanguageSwitcher.vue";
+import { useI18n } from 'vue-i18n'
+import { defineComponent, watch, ref } from "vue";
+import { useRouter } from "vue-router";
+  
+export default defineComponent({
+  components: {
+    LanguageSwitcher
+  },
+  setup() {
+    const { t, locale } = useI18n();
+    const isLoading = ref(false);
+    const router = useRouter();
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-]
+    const updateTitle = () => {
+      document.title = t('titleBrow');
+    };
 
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+    // Слушаем изменения локали
+    watch(locale, () => {
+      updateTitle();
+    });
+    
+    return {
+      t,
+      locale,
+      isLoading,
+      router
+    }
+  }
+})
 </script>
+
+<style scoped>
+/* Хедер */
+.app-header {
+  min-height: clamp(150px, 30vw, 260px);
+  max-height: 260px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Картинка */
+.header-image {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.header-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Затемнение + текст */
+.header-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vw, 10px);
+  padding-left: clamp(20px, 6vw, 80px);
+  max-width: clamp(220px, 40vw, 600px);
+}
+
+.main-title {
+  font-size: clamp(20px, 3vw, 36px);
+  line-height: 1.1;
+  margin: 0;
+  color: white;
+  font-weight: 600;
+}
+
+.sub-title {
+  font-size: clamp(12px, 2vw, 20px);
+  line-height: 1.2;
+  margin: 0;
+  color: white;
+  opacity: 0.9;
+}
+
+/* Табсы */
+.app-tabs {
+  background-color: slategrey;
+  height: 60px;
+}
+
+.app-tabs .q-tab__label {
+  font-size: 16px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
