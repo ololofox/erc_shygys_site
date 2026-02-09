@@ -77,12 +77,14 @@ setup() {
             globalMethods.showNotify(instance.proxy.$q, t('emptyEmail'), 'negative', 'negative')
             return
         }
-        const atIndex = yourEmail.value.indexOf('@')
-        const dotIndex = yourEmail.value.lastIndexOf('.') 
-        if (!(yourEmail.value.includes('@')) || !(yourEmail.value.includes('.')) || (atIndex <= 0) || (dotIndex <= atIndex + 1) || (dotIndex === yourEmail.value.length - 1)) {
+        
+console.log(globalMethods.checkEmail(yourEmail.value))
+
+        if (globalMethods.checkEmail(yourEmail.value) == false) {
             globalMethods.showNotify(instance.proxy.$q, t('uncorrectEmail'), 'negative', 'negative')
             return
         }
+        
         getEmail()
     }
     
