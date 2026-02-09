@@ -26,7 +26,10 @@ const messages = {
     registrationZa: 'Зарегистрироваться',
     recoverPasswordTitle: 'Восстановление пароля',
     or: 'или',
-    recoverPasswordTitleInfo: 'Введите номер Вашего лицевого счета или адрес электронной почты. Код для смены пароля будет выслан на E-Mail.'
+    recoverPasswordTitleInfo: 'Введите адрес электронной почты. Ссылка для смены пароля будет отправлена на E-Mail.',
+    ifRealEmail: 'Если такой email существует — письмо отправлено',
+    emptyEmail: 'Введите e-mail',
+    uncorrectEmail: 'Неверно указан e-mail',
   },
   kz: {
     personalAccount: 'Жеке кабинет',    
@@ -50,7 +53,10 @@ const messages = {
     registrationZa: 'Регистрация келесин',
     recoverPasswordTitle: 'Пароль переделай',
     or: 'немесе',
-    recoverPasswordTitleInfo: 'Kz Введите номер Вашего лицевого счета или адрес электронной почты. Код для смены пароля будет выслан на E-Mail.'
+    recoverPasswordTitleInfo: 'Kz Введите номер Вашего лицевого счета или адрес электронной почты. Код для смены пароля будет выслан на E-Mail.',
+    ifRealEmail: 'KZ Если такой email существует — письмо отправлено',
+    emptyEmail: 'Email пусто',
+    uncorrectEmail: 'Email емес',
   }
 }
 

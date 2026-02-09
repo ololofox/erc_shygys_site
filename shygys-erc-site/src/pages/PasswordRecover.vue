@@ -13,20 +13,7 @@
     </div>
   <hr>
   
-  <div style="margin-bottom: 5px;">    
-    <q-input 
-      v-model="yourLS"
-      outlined
-      :label="t('yourLS')" 
-      
-    >
-    </q-input>
-  </div>
-
-  <div style="color:gray;text-align:center; margin-left:10px;margin-top:5px;margin-bottom:5px">
-        {{t('or')}}
-  </div>
-
+  
   <div style="margin-bottom: 5px;">    
     <q-input 
       v-model="yourEmail"
@@ -43,7 +30,17 @@
   
 
   <div>
-    <q-btn style="margin-top:10px;color:blue" icon="check" outline no-caps :label="t('send')"></q-btn>
+    <q-btn 
+        style="margin-top:10px;
+        color:blue" 
+        icon="check" 
+        outline 
+        no-caps 
+        :label="t('send')" 
+        @click="checkEmail()"
+        v-if="isButtonVisible"
+    >
+    </q-btn>
   </div>
 
   
@@ -55,23 +52,48 @@
 
 <script>
 
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, getCurrentInstance } from "vue";
 import { useI18n } from 'vue-i18n'
+import globalMethods from '/src/utils'
 
 export default defineComponent ({
 setup() {
     const { t } = useI18n()
-    const yourLS = ref('')
+    const instance = getCurrentInstance();
     const yourPassword = ref('')
     const yourEmail = ref('')
     const yourPassword2 = ref('')
+    const isButtonVisible = ref('true')
+    
+    
+
+    const getEmail = () => {
+        globalMethods.showNotify(instance.proxy.$q,  t('ifRealEmail'), 'positive', 'positive')
+        //isButtonVisible.value = false
+    };
+
+    const checkEmail = () => {
+        if (yourEmail.value.trim() == '') {
+            globalMethods.showNotify(instance.proxy.$q, t('emptyEmail'), 'negative', 'negative')
+            return
+        }
+        const atIndex = yourEmail.value.indexOf('@')
+        const dotIndex = yourEmail.value.lastIndexOf('.') 
+        if (!(yourEmail.value.includes('@')) || !(yourEmail.value.includes('.')) || (atIndex <= 0) || (dotIndex <= atIndex + 1) || (dotIndex === yourEmail.value.length - 1)) {
+            globalMethods.showNotify(instance.proxy.$q, t('uncorrectEmail'), 'negative', 'negative')
+            return
+        }
+        getEmail()
+    }
     
 
     return {
-        yourLS,
+        isButtonVisible,
         yourPassword,
         yourEmail,
         yourPassword2,
+        getEmail,
+        checkEmail,
         t,
     }
 }})

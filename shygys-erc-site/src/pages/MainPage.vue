@@ -5,13 +5,15 @@
       v-model="tab"
       vertical
       dense
+      no-caps
+      inline-label
       class="tabs-left"
-      active-color="#1976d2"
+      active-color="blue"
       indicator-color="#1976d2"
     >
-      <q-tab name="tab1" label="О нас"/>
-      <q-tab name="tab2" label="Наши цели" />
-      <q-tab name="tab3" label="Контакты" />
+      <q-tab name="tab1" icon="info" label="О нас"/>
+      <q-tab name="tab2" icon="person_add" label="Наши цели" />
+      <q-tab name="tab3" icon="list" label="Контакты" />
     </q-tabs>
 
     <!-- Содержимое справа -->
