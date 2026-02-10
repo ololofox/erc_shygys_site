@@ -30,6 +30,21 @@ const messages = {
     ifRealEmail: 'Если такой email существует — письмо отправлено',
     emptyEmail: 'Введите e-mail',
     uncorrectEmail: 'Неверно указан e-mail',
+    emptyName: 'Введите имя',
+    emptyText: 'Введите текст',
+    enterLS: 'Введите лицевой счет',
+    enterPassword: 'Введите пароль',
+    enterPassword2: 'Подтвердите пароль',
+    passwordsNotEqual: 'Пароли не совпадают',
+    shortPassword: 'Слишком короткий пароль',
+
+
+
+    createCabinetUserProblem: 'Ошибка регистрации. Попробуйте позже',
+	  createCabinetExistUser: 'Пользователь с таким лицевым счетом уже зарегистрирован',
+	  createCabinetConsumerNotFound: 'Введенный лицевой счет не найден',
+	  createCabinetEmptyData: 'Введены не все данные',
+    serverIsNotAvailable: 'Сервер недоступен. Попробуйте позже'
   },
   kz: {
     personalAccount: 'Жеке кабинет',    
@@ -57,6 +72,20 @@ const messages = {
     ifRealEmail: 'KZ Если такой email существует — письмо отправлено',
     emptyEmail: 'Email пусто',
     uncorrectEmail: 'Email емес',
+    emptyName: 'Аты кайда',
+    emptyText: 'Текст жазушы',
+    enterLS: 'Лицевой берши',
+    enterPassword: 'Пароль берши',
+    enterPassword2: 'KZ Подтвердите пароль',
+    passwordsNotEqual: 'KZ Пароли не совпадают',
+    shortPassword: 'Пароль кишкентай',
+
+
+    createCabinetUserProblem: 'KZ Ошибка регистрации. Попробуйте позже',
+	  createCabinetExistUser: 'KZ Пользователь с таким лицевым счетом уже зарегистрирован',
+	  createCabinetConsumerNotFound: 'KZ Введенный лицевой счет не найден',
+	  createCabinetEmptyData: 'KZ Введены не все данные',
+    serverIsNotAvailable: 'KZ Сервер недоступен. Попробуйте позже'
   }
 }
 

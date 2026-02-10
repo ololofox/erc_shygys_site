@@ -1,18 +1,21 @@
 <template>
-  <q-layout>
+  <q-layout view="hHh Lpr fFf">
 
-    <!-- Overlay для спиннера -->
-    <div class="overlay" v-if="isLoading">
-      <div style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
-        <q-spinner-facebook
-          color="light-blue"
-          size="4em"
-        />
-      </div>
-    </div>
+    
 
     <!-- HEADER -->
     <q-header elevated class="app-header">
+
+
+      <!-- Overlay для спиннера -->
+      <div class="overlay" v-if="isLoading">
+        <div style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
+          <q-spinner-facebook
+            color="yellow"
+            size="4em"
+          />
+        </div>
+      </div>
 
       <LanguageSwitcher />
 
@@ -32,21 +35,24 @@
 
       <!-- Меню -->
       <q-tabs 
+        v-model="activeTab"
         inline-label 
         no-caps    
         :breakpoint="0"
         class="app-tabs"
       >
-        <q-route-tab icon="home" :label="t('home')" :to="{ name: 'main' }" />
-        <q-route-tab icon="mail" :label="t('feedback')" :to="{ name: 'feedback' }" />              
-        <q-route-tab icon="person" :label="t('personalAccount')" :to="{ name: 'autor' }" />              
+        <q-tab name="main" icon="home" :label="t('home')" />
+        <q-tab name="feedback" icon="mail" :label="t('feedback')"  />              
+        <q-tab name="autor" icon="person" :label="t('personalAccount')" />              
       </q-tabs>
 
     </q-header>
 
     <!-- BODY -->
-    <q-page-container>
-      <router-view />
+    <q-page-container >
+      
+          <router-view @isLoadingChanged="handleIsLoadingChange" />
+
     </q-page-container>
 
   </q-layout>
@@ -55,8 +61,8 @@
 <script>
 import LanguageSwitcher from "components/LanguageSwitcher.vue";
 import { useI18n } from 'vue-i18n'
-import { defineComponent, watch, ref } from "vue";
-import { useRouter } from "vue-router";
+import { defineComponent, watch, ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
   
 export default defineComponent({
   components: {
@@ -66,21 +72,37 @@ export default defineComponent({
     const { t, locale } = useI18n();
     const isLoading = ref(false);
     const router = useRouter();
+    const route = useRoute();
 
     const updateTitle = () => {
       document.title = t('titleBrow');
     };
 
+    const activeTab = computed({
+      get: () => route.meta.section,
+      set: (val) => {
+          // при изменении меняем роут
+          if (val === 'main') router.push({ name: 'main' })
+          if (val === 'feedback') router.push({ name: 'feedback' })
+          if (val === 'autor') router.push({ name: 'autor' })
+        }
+      })
     // Слушаем изменения локали
     watch(locale, () => {
       updateTitle();
     });
-    
+
+    const handleIsLoadingChange = (newValue) => {
+      isLoading.value = newValue
+    }
+
     return {
       t,
       locale,
       isLoading,
-      router
+      router,
+      activeTab,
+      handleIsLoadingChange
     }
   }
 })
@@ -147,7 +169,7 @@ export default defineComponent({
 /* Табсы */
 .app-tabs {
   background-color: slategrey;
-  height: 60px;
+  
 }
 
 .app-tabs .q-tab__label {
@@ -157,10 +179,13 @@ export default defineComponent({
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.6);
   z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+
+
 </style>

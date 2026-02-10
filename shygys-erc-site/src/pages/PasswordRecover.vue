@@ -1,4 +1,5 @@
 <template>
+<q-page>
 <div style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); width: clamp(300px, 35vw, 600px); margin: 50px auto; padding: 20px; border: 0px solid #ccc; border-radius: 8px; background: #f9f9f9;">
   <div style="font-size:25px;margin-top:20px">
     {{t('recoverPasswordTitle')}}
@@ -48,6 +49,7 @@
 
   
 </div>
+</q-page>
 </template>
 
 <script>
@@ -77,9 +79,7 @@ setup() {
             globalMethods.showNotify(instance.proxy.$q, t('emptyEmail'), 'negative', 'negative')
             return
         }
-        
-console.log(globalMethods.checkEmail(yourEmail.value))
-
+       
         if (globalMethods.checkEmail(yourEmail.value) == false) {
             globalMethods.showNotify(instance.proxy.$q, t('uncorrectEmail'), 'negative', 'negative')
             return

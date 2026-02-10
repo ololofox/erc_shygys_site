@@ -1,4 +1,5 @@
 <template>
+  <q-page>
   <div class="tabs-container">
     <!-- Вкладки слева -->
     <q-tabs
@@ -45,6 +46,7 @@
       </q-tab-panel>
     </q-tab-panels>
   </div>
+  </q-page>
 </template>
 
 <script setup>

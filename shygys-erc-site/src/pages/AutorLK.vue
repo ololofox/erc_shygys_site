@@ -1,4 +1,5 @@
 <template>
+ <q-page>
 <div style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); width: clamp(300px, 35vw, 600px); margin: 50px auto; padding: 20px; border: 0px solid #ccc; border-radius: 8px; background: #f9f9f9;">
   <div style="font-size:25px;margin-top:20px">
     {{t('autorizationPlease')}}
@@ -14,6 +15,7 @@
       v-model="yourLS"
       outlined
       :label="t('yourLS')" 
+      @vue:before-update="changeNumber"
     >
     </q-input>
   </div>
@@ -21,15 +23,23 @@
   <div style="margin-bottom: 5px;">
     <q-input 
       v-model="yourPassword" 
+      toggle-password
       outlined
-      :label="t('yourPassword')" 
-      type="password"
+      :label="t('yourPassword')"       
+      :type="isPwd ? 'password' : 'text'"
     >
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          ></q-icon>
+        </template>
     </q-input>
   </div>
 
   <div>
-    <q-btn style="margin-top:10px;color:blue" no-caps icon="person" outline :label="t('go')"></q-btn>
+    <q-btn style="margin-top:10px;color:blue" no-caps icon="person" outline :label="t('go')" @click="checkAll()"></q-btn>
   </div>
 
   <div style="margin-top:10px;display:flex;justify-content: center;">
@@ -56,21 +66,47 @@
 
   
 </div>
+</q-page>
 </template>
 
 <script>
 
 import { useI18n } from 'vue-i18n'
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, getCurrentInstance } from "vue";
 import { useRouter } from 'vue-router'
-
+import globalMethods from 'src/utils';
+import { mainStore } from 'src/store/mainStore' 
 
 export default defineComponent ({
 setup() {
     const { t } = useI18n()
+    const instance = getCurrentInstance()
     const yourLS = ref('')
     const yourPassword = ref('')
     const router = useRouter()
+    const store = mainStore()
+
+
+    const sendAutor = () => {
+        globalMethods.showNotify(instance.proxy.$q, 'Ok', 'positive', 'primary')
+        //globalMethods.showNotify(instance.proxy.$q, store.getAPIkey, 'positive', 'primary')
+    }
+
+    const checkAll = () => {
+        if (yourLS.value.trim() == '') {
+            globalMethods.showNotify(instance.proxy.$q, t('enterLS'), 'negative', 'negative')
+            return
+        }
+        if (yourPassword.value.trim() == '') {
+            globalMethods.showNotify(instance.proxy.$q, t('enterPassword'), 'negative', 'negative')
+            return
+        }
+        sendAutor()
+    }
+
+    const changeNumber = () => {
+        yourLS.value = yourLS.value.replace(/\D/g, '')      
+    }
 
     const goReg = () => {
         router.push('/reg')      
@@ -87,6 +123,10 @@ setup() {
         router,
         goReg,
         goRecover,
+        checkAll,
+        changeNumber,
+        isPwd: ref(true),
+        store
     }
 }})
 

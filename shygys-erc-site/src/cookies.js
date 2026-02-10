@@ -1,6 +1,6 @@
 import VueCookies from 'vue-cookies'
 
-const cookiesO = {
+const cookies = {
     setValue(namVal, val) {
         // устанавливаем значение переданного параметра
         VueCookies.set(namVal, val, '100y')
@@ -11,4 +11,4 @@ const cookiesO = {
     }
 }
 
-export default cookiesO;
+export default cookies;
