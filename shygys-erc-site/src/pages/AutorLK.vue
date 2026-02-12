@@ -76,9 +76,12 @@ import { defineComponent, ref, getCurrentInstance } from "vue";
 import { useRouter } from 'vue-router'
 import globalMethods from 'src/utils';
 import { mainStore } from 'src/store/mainStore' 
+//import cookies from "src/cookies";
+import apiRequests from "src/api";
+
 
 export default defineComponent ({
-setup() {
+setup(props, {emit}) {
     const { t } = useI18n()
     const instance = getCurrentInstance()
     const yourLS = ref('')
@@ -87,9 +90,27 @@ setup() {
     const store = mainStore()
 
 
-    const sendAutor = () => {
-        globalMethods.showNotify(instance.proxy.$q, 'Ok', 'positive', 'primary')
-        //globalMethods.showNotify(instance.proxy.$q, store.getAPIkey, 'positive', 'primary')
+    const sendAutor = async () => {
+      const userData = {
+        Login: yourLS.value,
+        Password: yourPassword.value,        
+      }
+
+      emit("isLoadingChanged", true)
+      const result = await apiRequests.userAutorization(userData)
+
+      if (result.success) {
+          emit("isLoadingChanged", false)
+          // авторизовались
+          //globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'positive', 'positive')
+          router.push('/cabinet')
+      } else {
+          emit("isLoadingChanged", false)  
+          // что-то пошло не так
+          globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')
+          return
+      }  
+      
     }
 
     const checkAll = () => {

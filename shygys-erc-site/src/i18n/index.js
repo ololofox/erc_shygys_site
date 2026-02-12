@@ -10,7 +10,7 @@ const messages = {
     about: 'О предприятии',
     feedback: 'Задать вопрос',
     home: 'Главная',
-    hasquestion: 'Отзыв на баленсиагу',
+    hasquestion: 'Оставить отзыв',
     yourName: 'Ваше имя',
     yourEmail: 'E-mail',
     textReply: 'Текст отзыва',
@@ -37,14 +37,29 @@ const messages = {
     enterPassword2: 'Подтвердите пароль',
     passwordsNotEqual: 'Пароли не совпадают',
     shortPassword: 'Слишком короткий пароль',
-
-
+    wellDoneRegistration: 'Успешная регистрация',
+    exit: 'Выйти',
+    unauthorized: 'Ошибка авторизации. Неверные данные для входа',
+    isMailingError: 'Ошибка изменения статуса. Попробуйте позже',
+    save: 'Сохранить',
+    notPaper: 'Отказ от бумажной квитанции - рассылка на почту',
+    messageStatusEmail: 'Способ получения квитанции сохранен',
+    changeEmail: 'Сменить Email',
+    changePassword: 'Сменить пароль',
+    printAll: 'Заполните все поля',
+    changePasswordSuccess: 'Пароль успешно изменен',
+    equalPasswords: 'Пароли совпадают',
 
     createCabinetUserProblem: 'Ошибка регистрации. Попробуйте позже',
 	  createCabinetExistUser: 'Пользователь с таким лицевым счетом уже зарегистрирован',
 	  createCabinetConsumerNotFound: 'Введенный лицевой счет не найден',
 	  createCabinetEmptyData: 'Введены не все данные',
-    serverIsNotAvailable: 'Сервер недоступен. Попробуйте позже'
+    serverIsNotAvailable: 'Сервер недоступен. Попробуйте позже',
+    autorCabinetUserProblem: 'Ошибка авторизации. Попробуйте позже',
+	  autorCabinetPasswordNotCorrect: 'Неверный пароль',
+    createCabinetExistEmail: 'Введенный e-mail уже зарегистрирован в системе',
+    getInfoError: 'Ошибка получения данных. Попробуйте позже',
+    changePasswordError: 'Ошибка смены пароля. Попробуйте позже'
   },
   kz: {
     personalAccount: 'Жеке кабинет',    
@@ -79,18 +94,35 @@ const messages = {
     enterPassword2: 'KZ Подтвердите пароль',
     passwordsNotEqual: 'KZ Пароли не совпадают',
     shortPassword: 'Пароль кишкентай',
+    wellDoneRegistration: 'KZ Успешная регистрация',
+    exit: 'Шыгу',
+    unauthorized: 'KZ Ошибка авторизации. Неверные данные для входа',
+    isMailingError: 'KZ Ошибка изменения статуса. Попробуйте позже',
+    save: 'KZ Сохранить',
+    notPaper: 'KZ Отказ от бумажной квитанции - рассылка на почту',
+    messageStatusEmail: 'KZ Способ получения квитанции сохранен',
+    changeEmail: 'KZ Сменить Email',
+    changePassword: 'KZ Сменить пароль',
+    printAll: 'KZ Заполните все поля',
+    changePasswordSuccess: 'KZ Пароль успешно изменен',
+    equalPasswords: 'KZ Пароли совпадают',
 
 
     createCabinetUserProblem: 'KZ Ошибка регистрации. Попробуйте позже',
 	  createCabinetExistUser: 'KZ Пользователь с таким лицевым счетом уже зарегистрирован',
 	  createCabinetConsumerNotFound: 'KZ Введенный лицевой счет не найден',
 	  createCabinetEmptyData: 'KZ Введены не все данные',
-    serverIsNotAvailable: 'KZ Сервер недоступен. Попробуйте позже'
+    serverIsNotAvailable: 'KZ Сервер недоступен. Попробуйте позже',
+    autorCabinetUserProblem: 'KZ Ошибка авторизации. Попробуйте позже',
+	  autorCabinetPasswordNotCorrect: 'KZ Неверный пароль',
+    createCabinetExistEmail: 'KZ Введенный e-mail уже зарегистрирован в системе',
+    getInfoError: 'KZ Ошибка получения данных. Попробуйте позже',
+    changePasswordError: 'KZ Ошибка смены пароля. Попробуйте позже'
   }
 }
 
 const i18n = createI18n({
-  legacy: false,  // Использование Composition API
+  legacy: false,  
   locale: savedLocale,   // Язык по умолчанию
   messages,       // Сообщения с переводами
 });

@@ -8,6 +8,12 @@ const cookies = {
     getValue(namVal) {
         // вытягиваем значения по имени параметра
         return VueCookies.get(namVal)
+    },
+    cleanCookies() {
+        // чистим все, что есть
+        VueCookies.remove('ls')
+        VueCookies.remove('token')
+        VueCookies.remove('user_id')
     }
 }
 

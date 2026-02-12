@@ -1,22 +1,22 @@
 <template>
-  <q-layout view="hHh Lpr fFf">
-
     
+      
+    <q-layout view="hHh Lpr fFf">
 
     <!-- HEADER -->
+     
     <q-header elevated class="app-header">
-
-
-      <!-- Overlay для спиннера -->
-      <div class="overlay" v-if="isLoading">
-        <div style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
-          <q-spinner-facebook
-            color="yellow"
-            size="4em"
-          />
+      <teleport to="body">
+        <div class="global-overlay" v-if="isLoading" >
+          <div style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
+            <q-spinner-facebook
+              color="yellow"
+              size="4em"
+            />
+          </div>
         </div>
-      </div>
-
+      </teleport>
+      
       <LanguageSwitcher />
 
       <!-- Картинка с текстом -->
@@ -35,27 +35,33 @@
 
       <!-- Меню -->
       <q-tabs 
-        v-model="activeTab"
+        :model-value="activeTab"
         inline-label 
         no-caps    
         :breakpoint="0"
         class="app-tabs"
       >
-        <q-tab name="main" icon="home" :label="t('home')" />
-        <q-tab name="feedback" icon="mail" :label="t('feedback')"  />              
-        <q-tab name="autor" icon="person" :label="t('personalAccount')" />              
+        <q-tab name="main" icon="home" :label="t('home')" @click="goMain" />
+        <q-tab name="feedback" icon="mail" :label="t('feedback')" @click="goFeedback"  />              
+        <q-tab name="autor" icon="person" :label="t('personalAccount')" @click="goAutor" />              
       </q-tabs>
 
     </q-header>
 
     <!-- BODY -->
-    <q-page-container >
+    <q-page-container v-show="!isInfoLoading">
       
-          <router-view @isLoadingChanged="handleIsLoadingChange" />
+<!-- Overlay для спиннера -->
+
+
+
+          <router-view @isLoadingChanged="handleIsLoadingChange"  @isInfoLoadingChanged="handleIsInfoLoadingChange" />
 
     </q-page-container>
 
   </q-layout>
+
+
 </template>
 
 <script>
@@ -63,7 +69,8 @@ import LanguageSwitcher from "components/LanguageSwitcher.vue";
 import { useI18n } from 'vue-i18n'
 import { defineComponent, watch, ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-  
+import cookies from "src/cookies";
+
 export default defineComponent({
   components: {
     LanguageSwitcher
@@ -71,6 +78,7 @@ export default defineComponent({
   setup() {
     const { t, locale } = useI18n();
     const isLoading = ref(false);
+    const isInfoLoading = ref(false);
     const router = useRouter();
     const route = useRoute();
 
@@ -78,15 +86,27 @@ export default defineComponent({
       document.title = t('titleBrow');
     };
 
-    const activeTab = computed({
-      get: () => route.meta.section,
-      set: (val) => {
-          // при изменении меняем роут
-          if (val === 'main') router.push({ name: 'main' })
-          if (val === 'feedback') router.push({ name: 'feedback' })
-          if (val === 'autor') router.push({ name: 'autor' })
+    const activeTab = computed(() => route.meta.section ?? 'main')
+
+    const goMain = () => {
+        router.push({ name: 'main' })
+    }
+
+    const goFeedback = () => {
+        router.push({ name: 'feedback' })
+    }
+
+    const goAutor = () => {
+        const lss = cookies.getValue('ls')
+
+        if (lss != null) {
+            router.push({ name: 'cabinet' })
+        } else {
+            router.push({ name: 'autoriz' })
         }
-      })
+    }
+
+
     // Слушаем изменения локали
     watch(locale, () => {
       updateTitle();
@@ -96,13 +116,22 @@ export default defineComponent({
       isLoading.value = newValue
     }
 
+    const handleIsInfoLoadingChange = (newValue) => {
+      isInfoLoading.value = newValue
+    }
+
     return {
       t,
       locale,
       isLoading,
+      isInfoLoading,
       router,
       activeTab,
-      handleIsLoadingChange
+      handleIsLoadingChange,
+      handleIsInfoLoadingChange,
+      goAutor,
+      goFeedback,
+      goMain
     }
   }
 })
@@ -111,8 +140,8 @@ export default defineComponent({
 <style scoped>
 /* Хедер */
 .app-header {
-  min-height: clamp(150px, 30vw, 260px);
-  max-height: 260px;
+  min-height: clamp(150px, 32vw, 300px);
+  max-height: 300px;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -166,15 +195,30 @@ export default defineComponent({
   opacity: 0.9;
 }
 
-/* Табсы */
 .app-tabs {
-  background-color: slategrey;
+ 
+  font-weight: 500;
   
+  background:rgb(18, 72, 94);
+  
+  padding: 8px;
+
 }
 
-.app-tabs .q-tab__label {
-  font-size: 16px;
+.app-tabs .q-tab {
+  border-radius: 14px;
+  transition: all 0.3s ease;
 }
+
+.app-tabs .q-tab--active {
+  background: rgba(190, 190, 190, 0.555);
+  text-shadow: 0 0 6px rgba(25, 118, 210, 0.5);
+}
+
+.app-tabs .q-tab:hover {
+  transform: translateY(-2px);
+}
+
 
 .overlay {
   position: fixed;

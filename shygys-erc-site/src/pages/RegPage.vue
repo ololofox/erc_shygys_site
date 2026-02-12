@@ -87,7 +87,8 @@ import { defineComponent, ref, getCurrentInstance } from "vue";
 import { useI18n } from 'vue-i18n'
 import globalMethods from "src/utils";
 import apiRequests from "src/api";
-import cookies from "src/cookies";
+import { useRouter } from 'vue-router'
+
 
 export default defineComponent ({
 setup(props, { emit }) {
@@ -96,7 +97,8 @@ setup(props, { emit }) {
     const yourPassword = ref('')
     const yourEmail = ref('')
     const yourPassword2 = ref('')
-    
+    const router = useRouter()
+
     const instance = getCurrentInstance()
 
     const changeNumber = () => {
@@ -155,14 +157,11 @@ setup(props, { emit }) {
       if (result.success) {
           emit("isLoadingChanged", false)
           // зарегистрировались и авторизовались
-          globalMethods.showNotify(instance.proxy.$q, t(result.data.MessageLocale), 'positive', 'positive')
-          cookies.setValue('token', result.data.token)
-          cookies.setValue('ls', userData.Login)
-          //cookies.getValue('psw')
-          console.log(result.data)
+          //globalMethods.showNotify(instance.proxy.$q, t('wellDoneRegistration'), 'positive', 'primary')
+          router.push('/cabinet')
       } else {
           emit("isLoadingChanged", false)  
-          globalMethods.showNotify(instance.proxy.$q, t(result.data.MessageLocale), 'negative', 'negative')
+          globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')
           return
       }
     }
