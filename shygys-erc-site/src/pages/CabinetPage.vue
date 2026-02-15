@@ -5,13 +5,13 @@
       <q-card style="min-width: 300px; " class="q-elevation-4">
 
         <q-card-section>
-          <div class="text-h6" style="margin-top:15px">Смена пароля</div>
+          <div class="text-h6" style="margin-top:15px">{{t('changingPassword')}}</div>
         </q-card-section>
 
         <q-card-section >
           <q-input 
             v-model="passwordOld"
-            label="Старый пароль"            
+            :label="t('oldPassword')"            
             outlined
             :type="isPwdOld ? 'password' : 'text'"
           >
@@ -28,7 +28,7 @@
             
             style="background-color: white; margin-top:10px"
             v-model="passwordNew"
-            label="Новый пароль"            
+            :label="t('newPassword')"            
             outlined
             :type="isPwdNew ? 'password' : 'text'"
           >
@@ -50,6 +50,51 @@
       </q-card>
     </q-dialog>
   
+
+    <q-dialog v-model="dialogChangeEmail">
+      <q-card style="min-width: 300px;" class="q-elevation-4">
+
+        <q-card-section>
+          <div class="text-h6" style="margin-top:15px">{{t('changingEmail')}}</div>
+        </q-card-section>
+
+        <q-card-section >
+          <q-input 
+            v-model="passwordEmail"
+            :label="t('yourPassword')"            
+            outlined
+            :type="isPwdEmail ? 'password' : 'text'"
+          >
+            <template v-slot:append>
+                <q-icon
+                    :name="isPwdEmail ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwdEmail = !isPwdEmail"
+                ></q-icon>
+            </template>
+        </q-input>
+
+          <q-input
+            
+            style="background-color: white; margin-top:10px"
+            v-model="newEmail"
+            :label="t('newEmail')"            
+            outlined
+          >
+          </q-input>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat no-caps label="Отмена" color="grey" @click="closeChangeEmail" />
+          <q-btn no-caps label="OK" color="primary" @click="checkAllEmail"  />
+        </q-card-actions>
+
+      </q-card>
+    </q-dialog>
+
+
+
+
   <div h3>
         Личный кабинет
   </div>
@@ -95,9 +140,17 @@ setup(props, {emit}) {
     const isM = ref(false)
     const valIsM = ref(0)
     const dialogChangePassword = ref(false)
+    const dialogChangeEmail = ref(false)
     const passwordOld = ref("")
     const passwordNew = ref("")
+    
+    const passwordEmail = ref("")
+    const newEmail = ref("")
+    const isPwdNew = ref(true)
+    const isPwdOld = ref(true)
+    const isPwdEmail = ref(true)
     const uid = cookies.getValue('user_id')
+        
 
     //const store = mainStore()
 
@@ -105,6 +158,7 @@ setup(props, {emit}) {
         emit("isLoadingChanged", true)
         emit("isInfoLoadingChanged", true)
 
+       
         const result = await apiRequests.getInfo(ls)        
 
         if (result.success) {
@@ -136,11 +190,25 @@ setup(props, {emit}) {
     const changePassword = () => {
         passwordNew.value = ""
         passwordOld.value = ""
+        isPwdNew.value = true
+        isPwdOld.value = true
         dialogChangePassword.value = true
     }
 
+
     const closeChangePassword = () => {
         dialogChangePassword.value = false
+    }
+
+    const closeChangeEmail = () => {
+        dialogChangeEmail.value = false
+    }
+
+    const changeEmail = () => {
+        passwordEmail.value = ""
+        newEmail.value = ""
+        isPwdEmail.value = false
+        dialogChangeEmail.value = true
     }
 
     const checkAll = () => {
@@ -162,6 +230,25 @@ setup(props, {emit}) {
         sendPasswords()
     }
 
+    const checkAllEmail = () => {
+        if ((passwordEmail.value.trim() == "") || (newEmail.value.trim() == "")) {
+            globalMethods.showNotify(instance.proxy.$q, t('printAll'), 'negative', 'negative')          
+            return
+        }
+
+        if (passwordEmail.value.length < 8) {
+            globalMethods.showNotify(instance.proxy.$q, t('shortPassword'), 'negative', 'negative')          
+            return
+        }
+
+        if (globalMethods.checkEmail(newEmail.value) == false) {
+            globalMethods.showNotify(instance.proxy.$q, t('uncorrectEmail'), 'negative', 'negative')
+            return
+        }
+
+        sendEmailTo()
+    }
+
     const sendPasswords = async () => {
         emit("isLoadingChanged", true)
                 
@@ -176,7 +263,24 @@ setup(props, {emit}) {
             // что-то пошло не так
             globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')
             console.log(result.data)
-      } 
+        } 
+    }
+
+    const sendEmailTo = async () => {
+        emit("isLoadingChanged", true)
+                
+        const result = await apiRequests.changeEmail(uid, passwordEmail.value, newEmail.value)       
+
+        if (result.success) {
+            emit("isLoadingChanged", false)          
+            globalMethods.showNotify(instance.proxy.$q, t('changeEmailSuccess'), 'primary', 'positive')          
+            closeChangeEmail()
+        } else {
+            emit("isLoadingChanged", false) 
+            // что-то пошло не так
+            globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')
+            console.log(result.data)
+        } 
     }
 
     const saveIsMailing = async () => {
@@ -208,12 +312,20 @@ setup(props, {emit}) {
         isM,
         changePassword,        
         dialogChangePassword,
+        dialogChangeEmail,
         closeChangePassword,
+        closeChangeEmail,
         passwordNew,
         passwordOld,
         checkAll,
+        checkAllEmail,
         isPwdNew: ref(true),
         isPwdOld: ref(true),
+        isPwdEmail: ref(true),
+        passwordEmail,
+        newEmail,
+        changeEmail,
+        sendEmailTo
     }
 }})
 

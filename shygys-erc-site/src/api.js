@@ -213,6 +213,44 @@ const apiRequests = {
         data: { message: "", messagelocale: "serverIsNotAvailable" }
       }
     }
+  },
+  // смена e-mail
+  // смена пароля
+  async changeEmail(_ID, _passwordEmail, _newEmail) {
+    try {
+
+      await api.post('/changeEmail', {
+          user_id: _ID,
+          password: _passwordEmail,
+          new_email: _newEmail
+      })
+
+      return { success: true, data: null }
+
+    } catch (err) {
+      if (err.response) {
+        return {
+          success: false,
+          data: {
+              message: err.response.data.Message,
+              messagelocale: err.response.data.MessageLocale
+          }
+        }
+      }
+      if (err.request) {
+        return {
+          success: false,
+          data: {
+            message: "server is not available",
+            messagelocale: "serverIsNotAvailable"
+          }
+        }
+      }
+      return {
+        success: false,
+        data: { message: "", messagelocale: "serverIsNotAvailable" }
+      }
+    }
   }
 }
 

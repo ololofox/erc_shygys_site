@@ -25,9 +25,9 @@
 
         <div class="header-overlay">
           <div class="header-text">
-            <h1 class="header-title main-title">ТОО "ЕРЦ Шыгыс"</h1>
+            <h1 class="header-title main-title">{{t('title')}}</h1>
             <h3 class="header-title sub-title">
-              Мы разнесем все, что можно и нельзя
+              {{t('secondTitle')}}
             </h3>
           </div>
         </div>

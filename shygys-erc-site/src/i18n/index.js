@@ -1,10 +1,12 @@
 import { createI18n } from 'vue-i18n';
-import cookies from "/src/cookies"
+import cookies from "/src/cookies";
 
 const savedLocale = cookies.getValue('curlang') || 'ru'
 
 const messages = {
   ru: {
+    title: 'ТОО "ЕРЦ Шыгыс"',
+    secondTitle: 'Мы разнесем все, что можно и нельзя',
     personalAccount: 'Личный кабинет',    
     titleBrow: 'ЕРЦ',
     about: 'О предприятии',
@@ -44,11 +46,17 @@ const messages = {
     save: 'Сохранить',
     notPaper: 'Отказ от бумажной квитанции - рассылка на почту',
     messageStatusEmail: 'Способ получения квитанции сохранен',
-    changeEmail: 'Сменить Email',
+    changeEmail: 'Сменить E-mail',
+    changingEmail: 'Смена E-mail',
     changePassword: 'Сменить пароль',
+    changingPassword: 'Смена пароля',
+    oldPassword: 'Старый пароль',
+    newPassword: 'Новый пароль',
+    newEmail: 'Новый E-mail',
     printAll: 'Заполните все поля',
     changePasswordSuccess: 'Пароль успешно изменен',
     equalPasswords: 'Пароли совпадают',
+    changeEmailSuccess: 'Адрес электронной почты успешно изменен',
 
     createCabinetUserProblem: 'Ошибка регистрации. Попробуйте позже',
 	  createCabinetExistUser: 'Пользователь с таким лицевым счетом уже зарегистрирован',
@@ -59,9 +67,14 @@ const messages = {
 	  autorCabinetPasswordNotCorrect: 'Неверный пароль',
     createCabinetExistEmail: 'Введенный e-mail уже зарегистрирован в системе',
     getInfoError: 'Ошибка получения данных. Попробуйте позже',
-    changePasswordError: 'Ошибка смены пароля. Попробуйте позже'
+    changePasswordError: 'Ошибка смены пароля. Попробуйте позже',
+    changeEmailError: 'Ошибка смены адреса электронной почты. Попробуйте позже',
+    feedBackProblem: 'Ошибка отправки отзыва. Попробуйте позже'
+    
   },
   kz: {
+    title: 'KZ ТОО "ЕРЦ Шыгыс"',
+    secondTitle: 'KZ Мы разнесем все, что можно и нельзя',
     personalAccount: 'Жеке кабинет',    
     titleBrow: 'ЕРЦ',
     about: 'Предприятие неге',
@@ -101,11 +114,17 @@ const messages = {
     save: 'KZ Сохранить',
     notPaper: 'KZ Отказ от бумажной квитанции - рассылка на почту',
     messageStatusEmail: 'KZ Способ получения квитанции сохранен',
-    changeEmail: 'KZ Сменить Email',
+    changeEmail: 'KZ Сменить E-mail',
+    changingEmail: 'KZ Смена E-mail',
     changePassword: 'KZ Сменить пароль',
+    changingPassword: 'KZ Смена пароля',
+    oldPassword: 'KZ Старый пароль',
+    newPassword: 'KZ Новый пароль',
+    newEmail: 'KZ Новый E-mail',
     printAll: 'KZ Заполните все поля',
     changePasswordSuccess: 'KZ Пароль успешно изменен',
     equalPasswords: 'KZ Пароли совпадают',
+    changeEmailSuccess: 'KZ Адрес электронной почты успешно изменен',
 
 
     createCabinetUserProblem: 'KZ Ошибка регистрации. Попробуйте позже',
@@ -117,7 +136,9 @@ const messages = {
 	  autorCabinetPasswordNotCorrect: 'KZ Неверный пароль',
     createCabinetExistEmail: 'KZ Введенный e-mail уже зарегистрирован в системе',
     getInfoError: 'KZ Ошибка получения данных. Попробуйте позже',
-    changePasswordError: 'KZ Ошибка смены пароля. Попробуйте позже'
+    changePasswordError: 'KZ Ошибка смены пароля. Попробуйте позже',
+    changeEmailError: 'KZ Ошибка смены адреса электронной почты. Попробуйте позже',
+    feedBackProblem: 'KZ Ошибка отправки отзыва. Попробуйте позже'
   }
 }
 
