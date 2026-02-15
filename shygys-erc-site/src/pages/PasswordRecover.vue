@@ -57,24 +57,44 @@
 import { defineComponent, ref, getCurrentInstance } from "vue";
 import { useI18n } from 'vue-i18n'
 import globalMethods from '/src/utils'
+import apiRequests from "src/api";
+import { mainStore } from 'src/store/mainStore' 
 
 export default defineComponent ({
-setup() {
+setup(props, { emit }) {
     const { t } = useI18n()
     const instance = getCurrentInstance();
     const yourPassword = ref('')
     const yourEmail = ref('')
     const yourPassword2 = ref('')
     const isButtonVisible = ref('true')
-    
+    const store = mainStore()
     
 
-    const getEmail = () => {
-        globalMethods.showNotify(instance.proxy.$q,  t('ifRealEmail'), 'positive', 'positive')
-        //isButtonVisible.value = false
+    const getEmail = async () => {
+        emit("isLoadingChanged", true)
+                
+        const result = await apiRequests.sendRecoverMail(yourEmail.value)
+        
+        if (result.success) {
+            emit("isLoadingChanged", false)          
+            globalMethods.showNotify(instance.proxy.$q, t('sendMailSuccess'), 'primary', 'positive')          
+            store.setLastRecoverMailTime(new Date())
+        } else {
+            emit("isLoadingChanged", false) 
+            // что-то пошло не так
+            globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')
+            console.log(result.data)
+        } 
+        
     };
 
     const checkEmail = () => {
+        if (!store.canSendRecoverMail()) {
+            globalMethods.showNotify(instance.proxy.$q, t('recoverMailProblem'), 'negative', 'negative')
+            return
+        }
+        
         if (yourEmail.value.trim() == '') {
             globalMethods.showNotify(instance.proxy.$q, t('emptyEmail'), 'negative', 'negative')
             return
@@ -84,7 +104,7 @@ setup() {
             globalMethods.showNotify(instance.proxy.$q, t('uncorrectEmail'), 'negative', 'negative')
             return
         }
-        
+
         getEmail()
     }
     

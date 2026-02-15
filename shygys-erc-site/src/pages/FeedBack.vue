@@ -56,16 +56,24 @@
 import { useI18n } from 'vue-i18n'
 import { defineComponent, ref, getCurrentInstance } from "vue";
 import globalMethods from '/src/utils'
+import apiRequests from "src/api";
+import { mainStore } from 'src/store/mainStore' 
 
 export default defineComponent ({
-setup() {
+setup(props, { emit }) {
     const { t } = useI18n()
     const yourname = ref('')
     const yourEmail = ref('')
     const yourreply = ref('')
     const instance = getCurrentInstance();
+    const store = mainStore()
 
     const checkAll = () => {
+        if (!store.canSendFeedback()) {
+            globalMethods.showNotify(instance.proxy.$q, t('timeMailProblem'), 'negative', 'negative')
+            return
+        }
+      
         if (yourname.value.trim() == '') {
             globalMethods.showNotify(instance.proxy.$q, t('emptyName'), 'negative', 'negative')
             return
@@ -93,8 +101,21 @@ setup() {
         return true
     }
 
-    const sendReply = () => {
+    const sendReply = async () => {
+        emit("isLoadingChanged", true)
+                
+        const result = await apiRequests.sendFeed(yourname.value, yourEmail.value, yourreply.value)       
 
+        if (result.success) {
+            emit("isLoadingChanged", false)          
+            globalMethods.showNotify(instance.proxy.$q, t('sendMailSuccess'), 'primary', 'positive')          
+            store.setLastFeedbackTime(new Date())
+        } else {
+            emit("isLoadingChanged", false) 
+            // что-то пошло не так
+            globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')
+            console.log(result.data)
+        } 
     }
 
     return {

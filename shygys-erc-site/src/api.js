@@ -215,7 +215,6 @@ const apiRequests = {
     }
   },
   // смена e-mail
-  // смена пароля
   async changeEmail(_ID, _passwordEmail, _newEmail) {
     try {
 
@@ -223,6 +222,79 @@ const apiRequests = {
           user_id: _ID,
           password: _passwordEmail,
           new_email: _newEmail
+      })
+
+      return { success: true, data: null }
+
+    } catch (err) {
+      if (err.response) {
+        return {
+          success: false,
+          data: {
+              message: err.response.data.Message,
+              messagelocale: err.response.data.MessageLocale
+          }
+        }
+      }
+      if (err.request) {
+        return {
+          success: false,
+          data: {
+            message: "server is not available",
+            messagelocale: "serverIsNotAvailable"
+          }
+        }
+      }
+      return {
+        success: false,
+        data: { message: "", messagelocale: "serverIsNotAvailable" }
+      }
+    }
+  }, 
+  // отправка отзыва
+  async sendFeed(_name, _email, _message) {
+    try {
+
+      await api.post('/sendFeed', {
+          name: _name,
+          email: _email,
+          message: _message
+      })
+
+      return { success: true, data: null }
+
+    } catch (err) {
+      if (err.response) {
+        return {
+          success: false,
+          data: {
+              message: err.response.data.Message,
+              messagelocale: err.response.data.MessageLocale
+          }
+        }
+      }
+      if (err.request) {
+        return {
+          success: false,
+          data: {
+            message: "server is not available",
+            messagelocale: "serverIsNotAvailable"
+          }
+        }
+      }
+      return {
+        success: false,
+        data: { message: "", messagelocale: "serverIsNotAvailable" }
+      }
+    }
+  },
+  // отправка ссылки на восстановление пароля
+  async sendRecoverMail(_login, _email) {
+    try {
+
+      await api.post('/sendRecoverMail', {
+        email: _email,  
+        login: _login,
       })
 
       return { success: true, data: null }

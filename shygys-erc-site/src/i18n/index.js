@@ -57,6 +57,9 @@ const messages = {
     changePasswordSuccess: 'Пароль успешно изменен',
     equalPasswords: 'Пароли совпадают',
     changeEmailSuccess: 'Адрес электронной почты успешно изменен',
+    sendMailSuccess: 'Отзыв успешно отправлен!',
+    timeMailProblem: 'Вы уже недавно отправляли отзыв',
+    recoverMailProblem: 'Вы уже недавно пытались восстановить пароль. Попробуйте позже',
 
     createCabinetUserProblem: 'Ошибка регистрации. Попробуйте позже',
 	  createCabinetExistUser: 'Пользователь с таким лицевым счетом уже зарегистрирован',
@@ -69,7 +72,8 @@ const messages = {
     getInfoError: 'Ошибка получения данных. Попробуйте позже',
     changePasswordError: 'Ошибка смены пароля. Попробуйте позже',
     changeEmailError: 'Ошибка смены адреса электронной почты. Попробуйте позже',
-    feedBackProblem: 'Ошибка отправки отзыва. Попробуйте позже'
+    feedBackProblem: 'Ошибка отправки отзыва. Попробуйте позже',
+    recoverPasswordProblem: 'Ошибка восстановления пароля. Попробуйте позже',
     
   },
   kz: {
@@ -125,7 +129,9 @@ const messages = {
     changePasswordSuccess: 'KZ Пароль успешно изменен',
     equalPasswords: 'KZ Пароли совпадают',
     changeEmailSuccess: 'KZ Адрес электронной почты успешно изменен',
-
+    sendMailSuccess: 'KZ Отзыв успешно отправлен!',
+    timeMailProblem: 'KZ Вы уже недавно отправляли отзыв',
+    recoverMailProblem: 'KZ Вы уже недавно пытались восстановить пароль. Попробуйте позже',
 
     createCabinetUserProblem: 'KZ Ошибка регистрации. Попробуйте позже',
 	  createCabinetExistUser: 'KZ Пользователь с таким лицевым счетом уже зарегистрирован',
@@ -138,7 +144,9 @@ const messages = {
     getInfoError: 'KZ Ошибка получения данных. Попробуйте позже',
     changePasswordError: 'KZ Ошибка смены пароля. Попробуйте позже',
     changeEmailError: 'KZ Ошибка смены адреса электронной почты. Попробуйте позже',
-    feedBackProblem: 'KZ Ошибка отправки отзыва. Попробуйте позже'
+    feedBackProblem: 'KZ Ошибка отправки отзыва. Попробуйте позже',
+    recoverPasswordProblem: 'KZ Ошибка восстановления пароля. Попробуйте позже',
+    
   }
 }
 
