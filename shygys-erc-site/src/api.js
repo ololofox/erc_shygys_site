@@ -289,12 +289,11 @@ const apiRequests = {
     }
   },
   // отправка ссылки на восстановление пароля
-  async sendRecoverMail(_login, _email) {
+  async sendRecoverMail(_email) {
     try {
 
       await api.post('/sendRecoverMail', {
-        email: _email,  
-        login: _login,
+        email: _email,
       })
 
       return { success: true, data: null }
@@ -323,7 +322,79 @@ const apiRequests = {
         data: { message: "", messagelocale: "serverIsNotAvailable" }
       }
     }
-  }
+  },
+  // сброс пароля
+  async resetPassword(_login, _password) {
+    try {
+
+      await api.post('/resetPassword', {
+          login: _login,
+          password: _password,
+      })
+
+      return { success: true, data: null }
+
+    } catch (err) {
+      if (err.response) {
+        return {
+          success: false,
+          data: {
+              message: err.response.data.Message,
+              messagelocale: err.response.data.MessageLocale
+          }
+        }
+      }
+      if (err.request) {
+        return {
+          success: false,
+          data: {
+            message: "server is not available",
+            messagelocale: "serverIsNotAvailable"
+          }
+        }
+      }
+      return {
+        success: false,
+        data: { message: "", messagelocale: "serverIsNotAvailable" }
+      }
+    }
+  },
+  // сброс пароля
+  async checkMailToken(_login, _token) {
+    try {
+
+      await api.post('/checkMailToken', {
+          token: _token,
+          login: _login,
+      })
+
+      return { success: true, data: null }
+
+    } catch (err) {
+      if (err.response) {
+        return {
+          success: false,
+          data: {
+              message: err.response.data.Message,
+              messagelocale: err.response.data.MessageLocale
+          }
+        }
+      }
+      if (err.request) {
+        return {
+          success: false,
+          data: {
+            message: "server is not available",
+            messagelocale: "serverIsNotAvailable"
+          }
+        }
+      }
+      return {
+        success: false,
+        data: { message: "", messagelocale: "serverIsNotAvailable" }
+      }
+    }
+  },
 }
 
 export default apiRequests

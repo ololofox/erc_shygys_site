@@ -1,51 +1,108 @@
 <template>
-  <q-page>
-  <div class="tabs-container">
-    <!-- Вкладки слева -->
-    <q-tabs
-      v-model="tab"
-      vertical
-      dense
-      no-caps
-      inline-label
-      class="tabs-left"
-      active-color="blue"
-      indicator-color="#1976d2"
-    >
-      <q-tab name="tab1" icon="info" label="О нас"/>
-      <q-tab name="tab2" icon="person_add" label="Наши цели" />
-      <q-tab name="tab3" icon="list" label="Контакты" />
-    </q-tabs>
+  <q-page class="page-wrapper">
 
-    <!-- Содержимое справа -->
-    <q-tab-panels v-model="tab" animated class="tab-content">
-      <q-tab-panel name="tab1">
-        <h6>Добро пожаловать!</h6>
-        <p>
-          Товарищество с ограниченной ответственностью «ЕРЦ Шыгыс» информирует о проведении поквартирного обхода жилых домов сотрудниками контролерской службы. Обход осуществляется в рамках соглашений с организациями по вывозу мусора города Астаны с целью актуализации данных о фактическом количестве потребителей коммунальных услуг. Сотрудники контролерской службы имеют при себе служебные удостоверения, подтверждающие их полномочия и деятельность в Товариществе. Просим жителей отнестись с пониманием и благодарим за сотрудничество.
-        </p>
-      </q-tab-panel>
+    <div class="tabs-card">
+      
+      <!-- Вкладки -->
+      <q-tabs
+        v-model="tab"
+        vertical
+        dense
+        no-caps
+        inline-label
+        class="tabs-left"
+        active-color="primary"
+        indicator-color="primary"
+      >
+        <q-tab name="tab1" icon="info" label="О нас"/>
+        <q-tab name="tab2" icon="flag" label="Наши цели"/>
+        <q-tab name="tab3" icon="contact_mail" label="Контакты"/>
+      </q-tabs>
 
-      <q-tab-panel name="tab2">
-        <h6>Цели и задачи</h6>
-        <ul>
-          <li>Ведение лицевых счетов</li>
-          <li>Формирование, печать и доставка счетов-квитанций</li>
-          <li>Обеспечение приема платежей через банки второго уровня</li>
-          <li>Обработка платежей</li>
-          <li>Предоставление оперативных данных о начислениях, платежах, задолженности потребителей</li>
-          <li>Координация работы абонентских служб поставщиков с потребителями</li>
-        </ul>
-      </q-tab-panel>
+      <!-- Контент -->
+      <q-tab-panels v-model="tab" animated class="tab-content">
+        
+        <q-tab-panel name="tab1">
+          <h5>О ЕРЦ Шығыс</h5>
+          <div class="panel-box">
+          <p>
+            ТОО «ЕРЦ Шығыс» - специализированное предприятие, основной задачей которого является совершенствование системы расчетов и сбора платежей за коммунальные услуги.
+            
+          </p>
+          </div>
+          <h5>Основные функции ЕРЦ</h5>
+          <div class="panel-box">
+            — Ведение лицевых счетов;
+            — Формирование, печать и доставка счетов-квитанций;
+            — Обеспечение приема платежей через банки второго уровня;
+            — Обработка платежей;
+            — Предоставление оперативных данных о начислениях, платежах, задолженности потребителей;
+            — Координация работы абонентских служб поставщиков с потребителями.
+          </div>  
 
-      <q-tab-panel name="tab3">
-        <h6>Настройки приложения</h6>
-        <p>
-          Здесь можно менять темы, язык, уведомления и другие параметры приложения.
-        </p>
-      </q-tab-panel>
-    </q-tab-panels>
-  </div>
+          <h5>Преимущества ЕРЦ</h5>
+          <div class="panel-box">
+          <p>
+          По всем коммунальным услугам потребителю приходит единый счет
+          Возможность оплаты счета в любом банке
+          Для разбора спорных ситуаций необходимо хранить только одну квитанцию
+
+          Мы уделяем особое внимание защите персональных данных наших партнеров и жителей города, используя специализированные средства, гарантирующие полную защиту от несанкционированного доступа.
+
+          Наличие у «ЕРЦ Шығыс» многолетнего опыта работы, современного оборудования и программного обеспечения, а также квалифицированного персонала позволяет с уверенностью смотреть в будущее и улучшать сервисное обслуживание.
+          </p>
+          </div>
+        </q-tab-panel>
+
+        <q-tab-panel name="tab2">
+          <h5>Миссия и цели</h5>
+          <div class="panel-box">
+          <ul>
+            <li>Ведение лицевых счетов</li>
+            <li>Формирование и доставка счетов</li>
+            <li>Прием платежей через банки</li>
+            <li>Обработка платежей</li>
+            <li>Предоставление данных о начислениях</li>
+            <li>Координация работы абонентских служб</li>
+          </ul>
+          </div>
+        </q-tab-panel>
+
+        <q-tab-panel name="tab3">
+          <h5>Реквизиты и контакты</h5>
+                      
+          <div class="panel-box">
+            <h6>  Для абонентов </h6>
+            По вопросам, связанным с коммунальными и иными услугами физических лиц (оплата, переоформление, корректировки, консультации), обращаться в Центр городских услуг
+            <p>
+            
+            </p>
+            <p>
+            </p>
+            <p>
+            Телефон
+            </p>
+          </div>
+
+          <div class="panel-box" style="margin-top:20px">
+          <h6>  Для поставщиков коммунальных услуг </h6>
+          г. Астана, ул. Мамбетова, д. 24, БЦ «Аффари»
+          <p>
+          Электронная почта канцелярии: secretary@aerc.kz
+          </p>
+          <p>
+          WhatsApp (только для сообщений, звонки не принимаются): +7-777-003-3013
+          </p>
+          <p>
+          Просим при обращении через WhatsApp подробно описывать суть проблемы и прилагать соответствующие скриншоты или документы, чтобы специалисты могли оперативно рассмотреть ваше обращение.
+          </p>
+          </div>
+        </q-tab-panel>
+
+      </q-tab-panels>
+
+    </div>
+
   </q-page>
 </template>
 
@@ -56,92 +113,96 @@ const tab = ref('tab1')
 </script>
 
 <style scoped>
-.tabs-container {
+.page-wrapper {
+  padding: clamp(16px, 3vw, 40px);
+  background: linear-gradient(135deg, #f5f7fa, #eef2f7);
+}
+
+/* Основная карточка */
+.tabs-card {
   display: flex;
   flex-direction: row;
-  height: 60vh;             /* адаптивная высота */
-  max-height: 600px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
+  width: 100%;
+  min-height: 400px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-  background-color: #fff;
   transition: all 0.3s ease;
 }
 
-/* Вкладки слева */
+/* Левая панель */
 .tabs-left {
-  min-width: 180px;
-  background: #f5f5f5;
-  border-right: 1px solid #ddd;
-  transition: background 0.3s;
+  min-width: 220px;
+  background: #fafafa;
+  border-right: 1px solid rgba(0,0,0,0.05);
+  padding: 10px;
 }
 
+/* Стили вкладок */
 .q-tab {
-  font-size: clamp(14px, 1.2vw, 16px);
-  padding: 10px clamp(8px, 1vw, 16px);
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  border-radius: 12px;
+  margin-bottom: 6px;
+  transition: all 0.25s ease;
+  font-weight: 500;
 }
 
 .q-tab:hover {
-  background-color: rgba(25, 118, 210, 0.1);
-  cursor: pointer;
+  background: rgba(25, 118, 210, 0.08);
 }
 
-/* Контент справа */
+/* Контент */
 .tab-content {
   flex: 1;
-  padding: clamp(10px, 2vw, 20px);
-  overflow-y: auto;       /* скролл при переполнении */
+  padding: 0 clamp(20px, 3vw, 40px) clamp(20px, 3vw, 40px);
 }
 
-.tab-content h6 {
-  font-size: clamp(16px, 1.8vw, 22px);
-  margin-bottom: 0.5rem;
+/* Заголовки */
+.tab-content h5 {
+  font-weight: 600;
+  margin-bottom: 15px;
+
   color: #1976d2;
 }
 
-.tab-content p, .tab-content li {
-  font-size: clamp(14px, 1.4vw, 16px);
-  line-height: 1.6;
-  color: #333;
+
+/* Текст */
+.tab-content p,
+.tab-content li {
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.7;
+  color: #444;
 }
 
 .tab-content ul {
-  padding-left: 1.2rem;
-  margin-top: 0.5rem;
+  padding-left: 20px;
+  margin-top: 10px;
 }
 
-/* Скроллбар для красоты */
-.tab-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.tab-content::-webkit-scrollbar-thumb {
-  background-color: rgba(0,0,0,0.2);
-  border-radius: 4px;
-}
-
-.tab-content::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.05);
-}
-
-/* Адаптив на мобильных */
-@media(max-width: 768px) {
-  .tabs-container {
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .tabs-card {
     flex-direction: column;
-    height: auto;
   }
 
   .tabs-left {
     min-width: 100%;
     border-right: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
   }
+}
 
-  .q-tab {
-    text-align: center;
-  }
+.panel-box {
+  background:rgb(240, 240, 245);
+  border-radius: 16px;
+  padding: clamp(16px, 2vw, 28px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* лёгкий hover-эффект */
+.panel-box:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 </style>

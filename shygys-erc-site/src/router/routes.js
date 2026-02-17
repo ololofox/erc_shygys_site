@@ -9,6 +9,7 @@ const routes = [
       { name: 'reg', path: 'reg', component: () => import('pages/RegPage.vue'), meta: { section: 'autor' }},        
       { name: 'recover', path: 'recover', component: () => import('pages/PasswordRecover.vue'), meta: { section: 'autor' }},
       { name: 'cabinet', path: 'cabinet', component: () => import('pages/CabinetPage.vue'), meta: { section: 'autor' }},    
+      { name: 'password-reset', path: 'password-reset', component: () => import('pages/PasswordReset.vue'), meta: { section: 'autor' }},    
     ]
   },  
 ]

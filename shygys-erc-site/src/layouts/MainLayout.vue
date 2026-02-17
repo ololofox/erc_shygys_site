@@ -59,6 +59,20 @@
 
     </q-page-container>
 
+
+    <q-footer class="app-footer">
+       
+      <div class="footer-content">
+        <div class="footer-left">
+              © {{ new Date().getFullYear() }} {{ t('title') }}
+        </div>
+        <div class="footer-right">
+            {{ t('allRightsReserved') }}
+        </div>
+      </div>
+    </q-footer>
+
+
   </q-layout>
 
 
@@ -230,6 +244,31 @@ export default defineComponent({
   align-items: center;
 }
 
+.app-footer {
+  background: #f0f0f0;                    
+  border-top: 1px solid rgba(0,0,0,0.08); 
+  padding: 16px 24px;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08); 
+  border-radius: 12px 12px 0 0;             
+  position: relative; 
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+}
 
 
 </style>

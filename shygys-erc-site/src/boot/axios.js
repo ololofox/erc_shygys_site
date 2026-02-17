@@ -19,7 +19,7 @@ export default boot(({ app }) => {
       const apiKey = store.getAPIkey
       const userName = cookies.getValue('ls')
 
-      const publicRoutes = ['/signIn', '/registration']
+      const publicRoutes = ['/signIn', '/registration', 'resetPassword']
       const isPublic = publicRoutes.some(route => config.url?.includes(route))
 
       if (!isPublic) {

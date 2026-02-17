@@ -58,7 +58,7 @@ import { defineComponent, ref, getCurrentInstance } from "vue";
 import { useI18n } from 'vue-i18n'
 import globalMethods from '/src/utils'
 import apiRequests from "src/api";
-import { mainStore } from 'src/store/mainStore' 
+//import { mainStore } from 'src/store/mainStore' 
 
 export default defineComponent ({
 setup(props, { emit }) {
@@ -68,7 +68,7 @@ setup(props, { emit }) {
     const yourEmail = ref('')
     const yourPassword2 = ref('')
     const isButtonVisible = ref('true')
-    const store = mainStore()
+    //const store = mainStore()
     
 
     const getEmail = async () => {
@@ -78,8 +78,8 @@ setup(props, { emit }) {
         
         if (result.success) {
             emit("isLoadingChanged", false)          
-            globalMethods.showNotify(instance.proxy.$q, t('sendMailSuccess'), 'primary', 'positive')          
-            store.setLastRecoverMailTime(new Date())
+            globalMethods.showNotify(instance.proxy.$q, t('ifRealEmail'), 'primary', 'positive')          
+            //store.setLastRecoverMailTime(new Date())
         } else {
             emit("isLoadingChanged", false) 
             // что-то пошло не так
@@ -90,10 +90,10 @@ setup(props, { emit }) {
     };
 
     const checkEmail = () => {
-        if (!store.canSendRecoverMail()) {
+        /*if (!store.canSendRecoverMail()) {
             globalMethods.showNotify(instance.proxy.$q, t('recoverMailProblem'), 'negative', 'negative')
             return
-        }
+        }*/
         
         if (yourEmail.value.trim() == '') {
             globalMethods.showNotify(instance.proxy.$q, t('emptyEmail'), 'negative', 'negative')
