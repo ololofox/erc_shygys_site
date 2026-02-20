@@ -395,6 +395,66 @@ const apiRequests = {
       }
     }
   },
+  async createBill(_accountID, _accountOrgID, _calcMonth) {
+    try {
+      const responseRes = await api.post('/bills/one', {
+          Account_id : _accountID,
+          Org_id : _accountOrgID,
+          Calc_month : _calcMonth,
+      },
+      {
+        responseType: 'blob'
+      })
+
+      const contentType = responseRes.headers['content-type']
+
+      if (contentType && contentType.includes('application/pdf')) {
+          const blob = new Blob([responseRes.data], { type: 'application/pdf' })
+          const url = window.URL.createObjectURL(blob)
+
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'payment_doc.pdf')
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+
+          return { success: true, data: null }
+      } else {
+          return {
+            success: false,
+            data: {
+                message: "",
+                messagelocale: "problemCreatePDF"
+            }
+          }
+      }
+    } catch (err) {
+      
+      if (err.response) {
+        return {
+          success: false,
+          data: {
+              message: err.response.data.Errors,
+              messagelocale: "problemCreatePDF"
+          }
+        }
+      }
+      if (err.request) {
+        return {
+          success: false,
+          data: {
+            message: "server is not available",
+            messagelocale: "serverIsNotAvailable"
+          }
+        }
+      }
+      return {
+        success: false,
+        data: { message: "", messagelocale: "serverIsNotAvailable" }
+      }
+    } 
+  }
 }
 
 export default apiRequests

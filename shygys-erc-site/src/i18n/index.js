@@ -87,6 +87,13 @@ const messages = {
     square: 'Площадь',
     countPeople: 'Количество человек',
     ls: 'ЛС',
+    noInfoAboutNach: 'Данных по текущим начислениям нет',
+    noInfoAboutProviders: 'Данных по поставщикам нет',
+    noData: 'Нет данных',
+    monthCreate: 'Месяц формирования',
+    notCorrectDate: 'Некорректная дата',
+    successDownloadPDF: 'Файл успешно скачан',
+    problemCreatePDF: 'Ошибка формирования PDF. Попробуйте позже',
 
     createCabinetUserProblem: 'Ошибка регистрации. Попробуйте позже',
 	  createCabinetExistUser: 'Пользователь с таким лицевым счетом уже зарегистрирован',
@@ -186,8 +193,13 @@ const messages = {
     square: 'KZ Площадь',
     countPeople: 'KZ Количество человек',
     ls: 'KZ ЛС',
-
-
+    noInfoAboutNach: 'KZ Данных по текущим начислениям нет',
+    noInfoAboutProviders: 'KZ Данных по поставщикам нет',
+    noData: 'KZ Нет данных',
+    monthCreate: 'KZ Месяц формирования',
+    notCorrectDate: 'KZ Некорректная дата',
+    successDownloadPDF: 'KZ файл успешно скачан',
+    problemCreatePDF: 'KZ Ошибка формирования PDF. Попробуйте позже',
 
     createCabinetUserProblem: 'KZ Ошибка регистрации. Попробуйте позже',
 	  createCabinetExistUser: 'KZ Пользователь с таким лицевым счетом уже зарегистрирован',

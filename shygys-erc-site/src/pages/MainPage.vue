@@ -114,8 +114,9 @@ const tab = ref('tab1')
 
 <style scoped>
 .page-wrapper {
-  padding: clamp(16px, 3vw, 40px);
+  padding: 0;
   background: linear-gradient(135deg, #f5f7fa, #eef2f7);
+  min-height: calc(100vh - 0px);  
 }
 
 /* Основная карточка */

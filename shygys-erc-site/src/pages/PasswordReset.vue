@@ -1,8 +1,8 @@
 <template>
-  <q-page>
+  <q-page class="main-autor">
   
 <div style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); width: clamp(300px, 35vw, 600px); margin: 50px auto; padding: 20px; border: 0px solid #ccc; border-radius: 8px; background: #f9f9f9;">
-  <div style="font-size:25px;margin-top:20px">
+  <div style="font-size:25px;margin-top:20px;color: #123046;font-weight: 600;font-size: clamp(20px, 2.5vw, 28px);">
     {{t('passwordReset')}}
     <q-icon 
         name="refresh" 
@@ -17,6 +17,7 @@
     <q-input 
       v-model="yourPassword" 
       outlined
+      dense
       :label="t('yourPassword')" 
       :type="isPwd ? 'password' : 'text'"
     >
@@ -38,6 +39,7 @@
     <q-input 
       v-model="yourPassword2" 
       outlined
+      dense
       :label="t('yourPassword2')" 
       :type="isPwd2 ? 'password' : 'text'"
     >
@@ -51,8 +53,8 @@
     </q-input>
   </div>
 
-  <div>
-    <q-btn style="margin-top:10px;color:blue" icon="check" outline no-caps :label="t('changePassword')" @click="checkAll"></q-btn>
+  <div class="button-actions" style="display:flex;justify-content: left;">
+    <q-btn style="margin-top:10px;" color="blue" icon="check" no-caps :label="t('changePassword')" @click="checkAll"></q-btn>
   </div>
   </div>
   </q-page>
@@ -154,3 +156,7 @@ setup(props, {emit}) {
     }
 }})
 </script>
+
+<style scoped>
+  
+</style>

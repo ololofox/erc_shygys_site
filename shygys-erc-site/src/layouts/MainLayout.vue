@@ -1,7 +1,7 @@
 <template>
     
       
-    <q-layout view="hHh Lpr fFf">
+    <q-layout view="hHh lpR fFf">
 
     <!-- HEADER -->
      
@@ -21,7 +21,7 @@
 
       <!-- Картинка с текстом -->
       <div class="header-image">
-        <img src="/header__.png" alt="header" />
+        <img src="/header.png" alt="header" />
 
         <div class="header-overlay">
           <div class="header-text">
@@ -41,9 +41,9 @@
         :breakpoint="0"
         class="app-tabs"
       >
-        <q-tab name="main" icon="home" :label="t('home')" @click="goMain" />
-        <q-tab name="feedback" icon="mail" :label="t('feedback')" @click="goFeedback"  />              
-        <q-tab name="autor" icon="person" :label="t('personalAccount')" @click="goAutor" />              
+        <q-tab name="main" :label="t('home')" @click="goMain" />
+        <q-tab name="feedback" :label="t('feedback')" @click="goFeedback"  />              
+        <q-tab name="autor" :label="t('personalAccount')" @click="goAutor" />              
       </q-tabs>
 
     </q-header>
@@ -58,20 +58,6 @@
           <router-view @isLoadingChanged="handleIsLoadingChange"  @isInfoLoadingChanged="handleIsInfoLoadingChange" />
 
     </q-page-container>
-
-
-    <q-footer class="app-footer">
-       
-      <div class="footer-content">
-        <div class="footer-left">
-              © {{ new Date().getFullYear() }} {{ t('title') }}
-        </div>
-        <div class="footer-right">
-            {{ t('allRightsReserved') }}
-        </div>
-      </div>
-    </q-footer>
-
 
   </q-layout>
 
@@ -134,6 +120,19 @@ export default defineComponent({
       isInfoLoading.value = newValue
     }
 
+    /*<q-footer class="app-footer">
+       
+      <div class="footer-content">
+        <div class="footer-left">
+              © {{ new Date().getFullYear() }} {{ t('title') }}
+        </div>
+        <div class="footer-right">
+            {{ t('allRightsReserved') }}
+        </div>
+      </div>
+    </q-footer>*/
+
+
     return {
       t,
       locale,
@@ -152,10 +151,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+
+
 /* Хедер */
 .app-header {
   min-height: clamp(150px, 32vw, 300px);
-  max-height: 300px;
+  max-height: 400px;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -167,13 +169,14 @@ export default defineComponent({
   height: 100%;
   width: 100%;
   overflow: hidden;
+
 }
 
 .header-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
+  object-fit:cover;
+  display:block;
 }
 
 /* Затемнение + текст */
@@ -209,28 +212,42 @@ export default defineComponent({
   opacity: 0.9;
 }
 
+
+
+
+/* Контейнер — фон табов */
 .app-tabs {
- 
   font-weight: 500;
-  
-  background:rgb(18, 72, 94);
-  
+  background: rgb(18, 72, 94);
   padding: 8px;
-
+  display: flex;        /* flex-контейнер для кнопок */
+  gap: 8px;             /* расстояние между кнопками */
 }
 
+/* Все табы — как кнопки */
 .app-tabs .q-tab {
-  border-radius: 14px;
+  flex: 1;               /* одинаковая ширина */
+  border-radius: 0px;
   transition: all 0.3s ease;
+  background: rgba(255,255,255,0.05); /* легкий фон для неактивных */
+  color: white;
+  text-align: center;
+  padding: 8px 12px;
+  
 }
 
+/* Активный таб */
 .app-tabs .q-tab--active {
-  background: rgba(190, 190, 190, 0.555);
+  
+  background: rgba(11, 140, 191, 0.2);
+  color: #ffffff;  /* чуть темнее для контраста */
   text-shadow: 0 0 6px rgba(25, 118, 210, 0.5);
 }
 
+/* Ховер — как у тебя было */
 .app-tabs .q-tab:hover {
   transform: translateY(-2px);
+  background: rgba(16, 79, 237, 0.5); /* чуть светлее при наведении */
 }
 
 

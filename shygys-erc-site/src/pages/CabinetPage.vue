@@ -1,27 +1,30 @@
 <template>
-  <q-page class="cabinet-page q-pa-md">
+  <q-page class="cabinet-page q-pa-md" >
 
     <!-- Диалоги -->
     <q-dialog v-model="dialogChangePassword">
       <q-card style="min-width: 320px;" class="q-elevation-6">
         <q-card-section>
-          <div class="text-h6 q-mb-md">{{ t('changingPassword') }}</div>
+          <div style="margin-top:15px;color: #123046;font-weight: 600;font-size: clamp(20px, 2.5vw, 28px);">{{ t('changingPassword') }}</div>
         </q-card-section>
+      <q-separator />
         <q-card-section>
-          <q-input v-model="passwordOld" :label="t('oldPassword')" outlined :type="isPwdOld ? 'password' : 'text'">
+          <q-input dense v-model="passwordOld" :label="t('oldPassword')" outlined :type="isPwdOld ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon :name="isPwdOld ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwdOld = !isPwdOld"/>
             </template>
           </q-input>
-          <q-input v-model="passwordNew" :label="t('newPassword')" outlined :type="isPwdNew ? 'password' : 'text'" class="q-mt-md">
+          <q-input dense v-model="passwordNew" :label="t('newPassword')" outlined :type="isPwdNew ? 'password' : 'text'" class="q-mt-md">
             <template v-slot:append>
               <q-icon :name="isPwdNew ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwdNew = !isPwdNew"/>
             </template>
           </q-input>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat color="grey" :label="t('cancel')" @click="closeChangePassword"/>
-          <q-btn color="primary" :label="t('ok')" @click="checkAll"/>
+          <div class="button-actions">
+            <q-btn color="grey" :label="t('cancel')" @click="closeChangePassword"/>
+            <q-btn style="margin-left: 5px;" color="primary" :label="t('ok')" @click="checkAll"/>
+          </div>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -29,18 +32,19 @@
     <q-dialog v-model="dialogChangeEmail">
       <q-card style="min-width: 320px;" class="q-elevation-6">
         <q-card-section>
-          <div class="text-h6 q-mb-md">{{ t('changingEmail') }}</div>
+          <div style="font-size:20px;margin-top:15px;color: #123046;font-weight: 600;font-size: clamp(20px, 2.5vw, 28px);">{{ t('changingEmail') }}</div>
         </q-card-section>
+        <q-separator />
         <q-card-section>
-          <q-input v-model="passwordEmail" :label="t('yourPassword')" outlined :type="isPwdEmail ? 'password' : 'text'">
+          <q-input dense v-model="passwordEmail" :label="t('yourPassword')" outlined :type="isPwdEmail ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon :name="isPwdEmail ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwdEmail = !isPwdEmail"/>
             </template>
           </q-input>
-          <q-input v-model="newEmail" :label="t('newEmail')" outlined class="q-mt-md"/>
+          <q-input dense v-model="newEmail" :label="t('newEmail')" outlined class="q-mt-md"/>
         </q-card-section>
-        <q-card-actions align="right">
-          <q-btn flat color="grey" :label="t('cancel')" @click="closeChangeEmail"/>
+        <q-card-actions align="right" class="button-actions">
+          <q-btn color="grey" :label="t('cancel')" @click="closeChangeEmail"/>
           <q-btn color="primary" :label="t('ok')" @click="checkAllEmail"/>
         </q-card-actions>
       </q-card>
@@ -48,7 +52,7 @@
 
     <!-- Заголовок -->
     <div class="row items-center justify-between q-mb-lg">
-      <div style="font-size:30px;font-weight: 500;margin-top:25px">
+      <div style="font-size: clamp(20px, 2.5vw, 28px);font-weight: 600;margin-top:25px;gap: 16px;color: #123046;">
         <q-icon 
           name="person" 
           size="24px" 
@@ -58,151 +62,278 @@
       <q-btn flat  color="negative" icon="logout" :label="t('exit')" @click="userExit"/>
     </div>
 
-    <!-- Настройки -->
-    <q-card class="settings-card shadow-2 q-mb-xl">
-      
-      <q-card-section style="font-size:20px">
-        
-        {{t('settings') }}</q-card-section>
-      <q-separator/>
-      <q-card-section>
-        <div class="row items-center justify-between q-mb-md">
-          <q-toggle v-model="isM" :label="t('notPaper')" color="primary"/>
-          <q-btn no-caps outline color="primary" :label="t('save')" @click="saveIsMailing"/>
-        </div>
-        <q-separator/>
-        <div class="row q-gutter-md" style="margin-top:10px;display: flex;justify-content: center;">
-          <q-btn no-caps outline color="red" :label="t('changePassword')"  @click="changePassword"/>
-          <q-btn no-caps outline color="red" :label="t('changeEmail')" @click="changeEmail"/>
-        </div>
-      </q-card-section>
-    </q-card>
+<div v-if="hasInfo === 1">
 
     <!-- Лицевые счета -->
     <div v-if="consumerInfo?.Accounts?.length">
       <q-card class="accounts-card shadow-2">
-        <q-card-section style="font-size:20px">{{ t('infoLS') }}</q-card-section>
-        <q-separator/>
+
+        <q-card-section style="font-size:clamp(16px, 2vw, 20px);font-weight: 600;margin-top:25px;gap: 16px;color: #123046;">
+          {{ t('infoLS') }}
+        </q-card-section>
+
+        <q-separator />
+
         <q-card-section>
+
+          <!-- ===== Лицевой счет ===== -->
           <q-expansion-item
             v-for="account in consumerInfo.Accounts"
-            :key="account.AccountID"            
+            :key="account.AccountID"
             header-class="account-header"
-            expand-icon-class="text-primary"  
-            group="somegroup"
-            >
-          <q-separator/>
-          <template v-slot:header>
-                  <q-item-section avatar>
-                      <q-icon name="numbers" />
-                  </q-item-section>   
-                  <q-item-section style="font-size:large;">
-                      {{ t('ls') }} № {{account.AccountID}}
-                  </q-item-section>
-          </template>
-          
-          
-          <div v-for="consumer in account.Consumers" :key="consumer.AccountID" style="margin-left:30px">
-              <q-expansion-item icon="perm_identity">
-                <template v-slot:header>
-                  <q-item-section avatar>
-                      <q-icon name="info" />
-                  </q-item-section>   
-                  <q-item-section style="font-size:medium;" bordered>
-                          {{t('infoProvider')}}
-                  </q-item-section>
-                  </template>
-              <!-- Поставщики -->
-              <div
-                v-for="org in consumer.AccountsOrg"
-                :key="org.ID"
-                :label="org.Provider"
-                header-class="org-header"
-                expand-icon-class="text-secondary"
-                class="org-card q-mb-md"
-              >
-                <div class="org-info q-pa-sm">
-                    <div style="font-size:15px;margin-bottom:10px">{{ org.Provider }}</div>
-                    <div>{{ t('lsOfProvider')}} <b>{{ org.ID }}</b></div>
-                    <div>{{ t('square') }} : {{ org.Square }}</div>
-                    <div>{{ t('countPeople')}}: {{ org.CountPeople }}</div>
-                </div>
-                </div>
-              
-              </q-expansion-item>
-                <!-- Начисления каждого поставщика -->
-                <div v-if="consumer.billing?.Calcs?.length">
-                  <q-expansion-item
-                    v-for="calc in consumer.billing.Calcs"
-                    :key="calc.CalcMonth"                    
-                    expand-separator
-                    class="billing-expansion"                    
-                  >
-                  <template v-slot:header>
-                     <q-item-section avatar>
-                          <q-icon name="calculate" />
-                     </q-item-section>   
-                     <q-item-section style="font-size:medium;">
-                          {{t('curMonthNach')}}
-                     </q-item-section>
-                  </template>
-                    <div v-for="provider in calc.Providers" :key="provider.ProviderName" class="provider-card q-pa-md q-mb-md">
-                      
-                        {{ provider.ProviderName }}
-                      <q-markup-table dense flat bordered class="billing-table">
-                        <thead>
-                          <tr>
-                            <th>{{ t('usluga')}}</th>
-                            <th>{{ t('saldoNach')}}</th>
-                            <th>{{ t('oplata')}}</th>
-                            <th>{{ t('prevPoks')}}</th>
-                            <th>{{ t('curPoks')}}</th>
-                            <th>{{ t('count')}}</th>
-                            <th>{{ t('cost')}}</th>
-                            <th>{{ t('nach')}}</th>
-                            <th>{{ t('penya')}}</th>
-                            <th>{{ t('pereraschet')}}</th>
-                            <th>{{ t('toOplata')}}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="row in provider.Rows" :key="row.ServiceName">
-                            <td>{{ row.ServiceName }}</td>
-                            <td>{{ row.SumSaldoBegin }}</td>
-                            <td>{{ row.SumPay }}</td>
-                            <td>
-                              <div v-for="(pok, idx) in row.PokRow" :key="idx">{{ pok.PayCount }}</div>
-                            </td>
-                            <td>
-                              <div v-for="(pok, idx) in row.PokRow" :key="idx">{{ pok.CheckCount }}</div>
-                            </td>
-                            <td>
-                              <div v-for="(pok, idx) in row.PokRow" :key="idx">{{ pok.Consumption }}</div>
-                            </td>
-                            <td>
-                              <div v-for="(pok, idx) in row.PokRow" :key="idx">{{ pok.Tariff }}</div>
-                            </td>
-                            <td>{{ row.SumCalc }}</td>
-                            <td>{{ row.SumPen }}</td>
-                            <td>{{ row.SumRecalc }}</td>
-                            <td>{{ row.SumSaldoEnd }}</td>
-                          </tr>
-                        </tbody>
-                      </q-markup-table>
-                    </div>
-                    <div class="row q-mb-sm">
-                        <div class="col" style="margin-left:15px;color:blue;display: flex;justify-content: right;">
-                          <q-btn outline no-caps :label="t('pdfDownload')"/>
-                        </div>
-                    </div>
-                  </q-expansion-item>
+            expand-icon-class="text-primary"
+            group="accounts"
+          >
+            <!-- Header счета -->
+            <template #header>
+              <q-item-section avatar style="color:royalblue">
+                <q-icon name="numbers" />
+              </q-item-section>
+
+              <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);font-weight: 600;gap: 16px;color: #123046;">
+                {{ t('ls') }} № {{ account.AccountID }}
+              </q-item-section>
+
+      
+            </template>
+
+            <div style="display: flex;justify-content: right; margin-top:10px;margin-bottom:10px;font-size:15px;margin-right: 20px;">
+                {{ account.Address }}
+            </div>
+            <q-separator />
+
+            <!-- ===== Поставщики ===== -->
+            <q-expansion-item icon="perm_identity" style="margin-left:30px">
+
+              <template #header>
+                <q-item-section avatar style="color:lightslategrey">
+                  <q-icon name="info_outline" />
+                </q-item-section>
+
+                <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);font-weight: 600;gap: 16px;color: #123046;">
+                  {{ t('infoProvider') }}
+                </q-item-section>
+              </template>
+
+              <div v-if="account.AccountsOrg!=null" style="margin-right:20px">
+
+                <div
+                  v-for="org in account.AccountsOrg || []"
+                  :key="org.ID"
+                  class="org-card q-mb-md q-pa-sm"
+                >
+                  <div style="font-size:15px;margin-bottom:10px">
+                    {{ org.Provider }}
+                  </div>
+
+                  <div>
+                    {{ t('lsOfProvider') }} <b>{{ org.ID }}</b>
+                  </div>
+
+                  <div>
+                    {{ t('square') }} : {{ org.Square }}
+                  </div>
+
+                  <div>
+                    {{ t('countPeople') }} : {{ org.CountPeople }}
+                  </div>
                 </div>
 
+              </div>
+
+              <div v-else class="column items-center text-grey-5">
+                <div style="margin:10px 0">
+                  <q-icon name="info" size="30px" class="q-mb-sm" />
+                  {{ t('noInfoAboutProviders') }}
+                </div>
+              </div>
+
+            </q-expansion-item>
+
+
+            <!-- ===== Начисления ===== -->
+            <q-expansion-item style="margin-left:30px"> 
+
+              <template #header>
+                <q-item-section avatar style="color:lightslategrey">
+                  <q-icon name="article" />
+                </q-item-section>
+
+                <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);font-weight: 600;gap: 16px;color: #123046;">
+                  {{ t('curMonthNach') }}
+                </q-item-section>
+              </template>
+
+              <div v-if="account.billing.Calcs[0].Providers!=null">
+                 
+                <div
+                  v-for="calc in account.billing.Calcs || []"
+                  :key="calc.CalcMonth"
+                  class="billing-expansion" style="margin-right:20px"
+                >
+
+                  <div
+                    v-for="provider in calc.Providers || []"
+                    :key="provider.ProviderName"
+                    class="provider-card q-pa-md q-mb-md"
+                  >
+                    <div class="q-mb-sm">
+                      <strong>{{ provider.ProviderName }}</strong>
+                    </div>
+                    
+                    <q-markup-table dense flat bordered class="billing-table">
+                      <thead>
+                        <tr>
+                          <th>{{ t('usluga') }}</th>
+                          <th>{{ t('saldoNach') }}</th>
+                          <th>{{ t('oplata') }}</th>
+                          <th>{{ t('prevPoks') }}</th>
+                          <th>{{ t('curPoks') }}</th>
+                          <th>{{ t('count') }}</th>
+                          <th>{{ t('cost') }}</th>
+                          <th>{{ t('nach') }}</th>
+                          <th>{{ t('penya') }}</th>
+                          <th>{{ t('pereraschet') }}</th>
+                          <th>{{ t('toOplata') }}</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr
+                          v-for="row in provider.Rows"
+                          :key="row.ServiceName"
+                        >
+                          <td>{{ row.ServiceName }}</td>
+                          <td>{{ row.SumSaldoBegin }}</td>
+                          <td>{{ row.SumPay }}</td>
+
+                          <td>
+                            <div
+                              v-for="(pok, idx) in row.PokRow"
+                              :key="'pay'+idx"
+                            >
+                              {{ pok.PayCount }}
+                            </div>
+                          </td>
+
+                          <td>
+                            <div
+                              v-for="(pok, idx) in row.PokRow"
+                              :key="'check'+idx"
+                            >
+                              {{ pok.CheckCount }}
+                            </div>
+                          </td>
+
+                          <td>
+                            <div
+                              v-for="(pok, idx) in row.PokRow"
+                              :key="'cons'+idx"
+                            >
+                              {{ pok.Consumption }}
+                            </div>
+                          </td>
+
+                          <td>
+                            <div
+                              v-for="(pok, idx) in row.PokRow"
+                              :key="'tariff'+idx"
+                            >
+                              {{ pok.Tariff }}
+                            </div>
+                          </td>
+
+                          <td>{{ row.SumCalc }}</td>
+                          <td>{{ row.SumPen }}</td>
+                          <td>{{ row.SumRecalc }}</td>
+                          <td>{{ row.SumSaldoEnd }}</td>
+                        </tr>
+                      </tbody>
+                    </q-markup-table>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div v-else class="column items-center text-grey-5">
+                <div style="margin:10px 0">
+                  <q-icon name="info" size="30px" class="q-mb-sm" />
+                  {{ t('noInfoAboutNach') }}
+                </div>
+              </div>
+
+            </q-expansion-item>
+
+
+          <div class="row q-mb-sm button-actions">
+            <div
+              class="col"
+              style="margin-top:15px; margin-left:15px;color:blue;display:flex;justify-content:right;"
+            >
+            <div style="margin-right:10px;color:blue">
+                <q-input v-model="selectedMonth" type="month" :label="t('monthCreate')" outlined dense />
             </div>
-            
+
+            <q-btn
+                color="primary"
+                no-caps
+                :label="t('pdfDownload')"
+                @click="downloadPDF(account.AccountID)"
+                style="margin-right:20px"
+              />
+            </div>
+          </div>
+
           </q-expansion-item>
+
+
+          
+
         </q-card-section>
       </q-card>
+    </div>
+
+    <!-- Если счетов нет -->
+    <div v-else class="column items-center text-grey-5">
+      <q-icon name="info" size="30px" class="q-mb-sm" />
+      {{ t('noData') }}
+    </div>
+
+  
+
+    
+
+
+    <!-- Настройки -->
+    <q-card class="settings-card shadow-2 q-mb-xl" style = "margin-top:20px">
+      
+      <q-card-section style="font-size:clamp(16px, 2vw, 20px);font-weight: 600;margin-top:25px;gap: 16px;color: #123046;">
+        
+        {{t('settings') }}</q-card-section>
+      <q-separator/>
+      <q-card-section>
+        <div class="row items-center justify-between q-mb-md" >
+          <div>
+              <q-toggle v-model="isM" :label="t('notPaper')" color="primary"/>
+          </div>
+          <div class="button-actions">
+              <q-btn no-caps color="primary" :label="t('save')" @click="saveIsMailing"/>
+          </div>
+        </div>
+        <q-separator/>
+        <div class="row q-gutter-md button-actions" style="margin-top:10px;display: flex;justify-content: center;">
+          <q-btn no-caps color="red" :label="t('changePassword')"  @click="changePassword"/>
+          <q-btn no-caps color="red" :label="t('changeEmail')" @click="changeEmail"/>
+        </div>
+      </q-card-section>
+    </q-card>
+
+
+    </div>
+    <div v-else style="font-size:15px;margin-left:50px">
+        <q-icon name="info" size="20px" style="color:grey" /> {{t('noData')}}
     </div>
 
   </q-page>
@@ -239,6 +370,10 @@ setup(props, {emit}) {
     const isPwdEmail = ref(true)
     const uid = cookies.getValue('user_id')
     const consumerInfo = ref(null)
+    const hasInfo = ref(0)
+    const selectedMonth = ref(null)
+    const curCalcMonth = ref("")
+
 
     //const store = mainStore()
 
@@ -253,23 +388,29 @@ setup(props, {emit}) {
           emit("isInfoLoadingChanged", false)
           // получили
           //globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'positive', 'positive')          
-          if (result.data.IsMailing == 1) {
-                isM.value = true
-          } else {
-                isM.value = false
-          }
-          console.log(result)
+          //if (result.data.IsMailing == 1) {
+          isM.value = result.data.IsMailing
+          //} else {
+          //      isM.value = false
+          //}          
           consumerInfo.value = result.data
+          hasInfo.value = 1
+
+          curCalcMonth.value = result.data.CalcMonth
+          selectedMonth.value = curCalcMonth.value.substring(0, curCalcMonth.value.length - 3) 
         } else {
           emit("isLoadingChanged", false)  
           emit("isInfoLoadingChanged", false)
           // что-то пошло не так
           globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')          
-          router.push('/autor')
+          //router.push('/autor')
+          hasInfo.value = 0
           console.log(result)
       }  
     })
 
+    
+  
     const userExit = () => {
         cookies.cleanCookies()
         router.push('/autor')      
@@ -380,7 +521,7 @@ setup(props, {emit}) {
             valIsM.value = 0
         }
         const uid = cookies.getValue('user_id')
-        const result = await apiRequests.isMailing(uid, valIsM.value)       
+        const result = await apiRequests.isMailing(uid, isM.value)       
 
         if (result.success) {
           emit("isLoadingChanged", false)          
@@ -389,10 +530,41 @@ setup(props, {emit}) {
           emit("isLoadingChanged", false)  
           // что-то пошло не так
           globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')
-
+          console.log(result.data)
       } 
     }
 
+    const downloadPDF = async (_accountID) => {
+      const selectedMonthCh = selectedMonth.value + '-01'
+      
+
+      if (isDateFormat(selectedMonthCh)) {
+          emit("isLoadingChanged", true)  
+          
+          const result = await apiRequests.createBill(_accountID, 0, selectedMonthCh)
+          
+          if (result.success) {
+              emit("isLoadingChanged", false)          
+              globalMethods.showNotify(instance.proxy.$q, t('successDownloadPDF'), 'primary', 'positive')          
+          } else {
+              emit("isLoadingChanged", false)  
+              // что-то пошло не так
+              globalMethods.showNotify(instance.proxy.$q, t(result.data.messagelocale), 'negative', 'negative')
+          } 
+      } else {
+          globalMethods.showNotify(instance.proxy.$q, t('notCorrectDate'), 'negative', 'negative')
+      }
+                    
+      
+    }
+
+    const isDateFormat = (str) => {
+        return /^\d{4}-\d{2}-\d{2}$/.test(str)
+    }
+
+
+
+    
     return {
         t,        
         userExit,
@@ -414,7 +586,11 @@ setup(props, {emit}) {
         newEmail,
         changeEmail,
         sendEmailTo,
-        consumerInfo
+        consumerInfo,
+        hasInfo,
+        selectedMonth,
+        downloadPDF,
+        curCalcMonth
     }
 }})
 

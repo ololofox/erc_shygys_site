@@ -1,7 +1,7 @@
 <template>
- <q-page>
+ <q-page class="main-autor">
 <div style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); width: clamp(300px, 35vw, 600px); margin: 50px auto; padding: 20px; border: 0px solid #ccc; border-radius: 8px; background: #f9f9f9;">
-  <div style="font-size:25px;margin-top:20px">
+  <div style="font-size:25px;margin-top:20px; color: #123046;font-weight: 600;font-size: clamp(20px, 2.5vw, 28px);">
     {{t('registrationTitle')}}
     <q-icon 
         name="how_to_reg" 
@@ -14,6 +14,7 @@
   <div style="margin-bottom: 5px;">    
     <q-input 
       v-model="yourLS"
+      dense
       outlined
       :label="t('yourLS')" 
       @vue:before-update="changeNumber"
@@ -24,6 +25,7 @@
   <div style="margin-bottom: 5px;">    
     <q-input 
       v-model="yourEmail"
+      dense
       outlined
       :label="t('yourEmail')" 
      
@@ -34,6 +36,7 @@
   <div style="margin-bottom: 5px;">
     <q-input 
       v-model="yourPassword" 
+      dense
       outlined
       :label="t('yourPassword')" 
       :type="isPwd ? 'password' : 'text'"
@@ -55,6 +58,7 @@
   <div style="margin-bottom: 5px;">
     <q-input 
       v-model="yourPassword2" 
+      dense
       outlined
       :label="t('yourPassword2')" 
       :type="isPwd2 ? 'password' : 'text'"
@@ -69,8 +73,8 @@
     </q-input>
   </div>
 
-  <div>
-    <q-btn style="margin-top:10px;color:blue" icon="check" outline no-caps :label="t('registrationZa')" @click="checkAll"></q-btn>
+  <div class="button-actions" style="justify-content: left;">
+    <q-btn style="margin-top:10px;" color="primary" icon="check" no-caps :label="t('registrationZa')" @click="checkAll"></q-btn>
   </div>
 
   
@@ -184,6 +188,5 @@ setup(props, { emit }) {
 </script>
 
 <style>
-
 
 </style>
