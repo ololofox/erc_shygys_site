@@ -1,6 +1,6 @@
 import VueCookies from 'vue-cookies'
 
-const cookiesO = {
+const cookies = {
     setValue(namVal, val) {
         // устанавливаем значение переданного параметра
         VueCookies.set(namVal, val, '100y')
@@ -8,7 +8,13 @@ const cookiesO = {
     getValue(namVal) {
         // вытягиваем значения по имени параметра
         return VueCookies.get(namVal)
+    },
+    cleanCookies() {
+        // чистим все, что есть
+        VueCookies.remove('ls')
+        VueCookies.remove('token')
+        VueCookies.remove('user_id')
     }
 }
 
-export default cookiesO;
+export default cookies;
