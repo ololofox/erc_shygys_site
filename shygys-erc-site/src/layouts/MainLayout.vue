@@ -1,81 +1,291 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+    
+      
+    <q-layout view="hHh lpR fFf">
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+    <!-- HEADER -->
+     
+    <q-header elevated class="app-header">
+      <teleport to="body">
+        <div class="global-overlay" v-if="isLoading" >
+          <div style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
+            <q-spinner-facebook
+              color="yellow"
+              size="4em"
+            />
+          </div>
+        </div>
+      </teleport>
+      
+      <LanguageSwitcher />
 
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
+      <!-- Картинка с текстом -->
+      <div class="header-image">
+        <img src="/header.png" alt="header" />
+
+        <div class="header-overlay">
+          <div class="header-text">
+            <h1 class="header-title main-title">{{t('title')}}</h1>
+            <h3 class="header-title sub-title">
+              {{t('secondTitle')}}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Меню -->
+      <q-tabs 
+        :model-value="activeTab"
+        inline-label 
+        no-caps    
+        :breakpoint="0"
+        class="app-tabs"
+      >
+        <q-tab name="main" :label="t('home')" @click="goMain" />
+        <q-tab name="feedback" :label="t('feedback')" @click="goFeedback"  />              
+        <q-tab name="autor" :label="t('personalAccount')" @click="goAutor" />              
+      </q-tabs>
+
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+    <!-- BODY -->
+    <q-page-container v-show="!isInfoLoading">
+      
+<!-- Overlay для спиннера -->
 
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
-      </q-list>
-    </q-drawer>
 
-    <q-page-container>
-      <router-view />
+
+          <router-view @isLoadingChanged="handleIsLoadingChange"  @isInfoLoadingChanged="handleIsInfoLoadingChange" />
+
     </q-page-container>
+
   </q-layout>
+
+
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+<script>
+import LanguageSwitcher from "components/LanguageSwitcher.vue";
+import { useI18n } from 'vue-i18n'
+import { defineComponent, watch, ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import cookies from "src/cookies";
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
+export default defineComponent({
+  components: {
+    LanguageSwitcher
   },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-]
+  setup() {
+    const { t, locale } = useI18n();
+    const isLoading = ref(false);
+    const isInfoLoading = ref(false);
+    const router = useRouter();
+    const route = useRoute();
 
-const leftDrawerOpen = ref(false)
+    const updateTitle = () => {
+      document.title = t('titleBrow');
+    };
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+    const activeTab = computed(() => route.meta.section ?? 'main')
+
+    const goMain = () => {
+        router.push({ name: 'main' })
+    }
+
+    const goFeedback = () => {
+        router.push({ name: 'feedback' })
+    }
+
+    const goAutor = () => {
+        const lss = cookies.getValue('ls')
+
+        if (lss != null) {
+            router.push({ name: 'cabinet' })
+        } else {
+            router.push({ name: 'autoriz' })
+        }
+    }
+
+
+    // Слушаем изменения локали
+    watch(locale, () => {
+      updateTitle();
+    });
+
+    const handleIsLoadingChange = (newValue) => {
+      isLoading.value = newValue
+    }
+
+    const handleIsInfoLoadingChange = (newValue) => {
+      isInfoLoading.value = newValue
+    }
+
+    /*<q-footer class="app-footer">
+       
+      <div class="footer-content">
+        <div class="footer-left">
+              © {{ new Date().getFullYear() }} {{ t('title') }}
+        </div>
+        <div class="footer-right">
+            {{ t('allRightsReserved') }}
+        </div>
+      </div>
+    </q-footer>*/
+
+
+    return {
+      t,
+      locale,
+      isLoading,
+      isInfoLoading,
+      router,
+      activeTab,
+      handleIsLoadingChange,
+      handleIsInfoLoadingChange,
+      goAutor,
+      goFeedback,
+      goMain
+    }
+  }
+})
 </script>
+
+<style scoped>
+
+
+
+/* Хедер */
+.app-header {
+  min-height: clamp(150px, 32vw, 300px);
+  max-height: 400px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Картинка */
+.header-image {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+
+}
+
+.header-image img {
+  width: 100%;
+  height: 100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* Затемнение + текст */
+.header-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vw, 10px);
+  padding-left: clamp(20px, 6vw, 80px);
+  max-width: clamp(220px, 40vw, 600px);
+}
+
+.main-title {
+  font-size: clamp(20px, 3vw, 36px);
+  line-height: 1.1;
+  margin: 0;
+  color: white;
+  font-weight: 600;
+}
+
+.sub-title {
+  font-size: clamp(12px, 2vw, 20px);
+  line-height: 1.2;
+  margin: 0;
+  color: white;
+  opacity: 0.9;
+}
+
+
+
+
+/* Контейнер — фон табов */
+.app-tabs {
+  font-weight: 500;
+  background: rgb(18, 72, 94);
+  padding: 8px;
+  display: flex;        /* flex-контейнер для кнопок */
+  gap: 8px;             /* расстояние между кнопками */
+}
+
+/* Все табы — как кнопки */
+.app-tabs .q-tab {
+  flex: 1;               /* одинаковая ширина */
+  border-radius: 0px;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.05); /* легкий фон для неактивных */
+  color: white;
+  text-align: center;
+  padding: 8px 12px;
+  
+}
+
+/* Активный таб */
+.app-tabs .q-tab--active {
+  
+  background: rgba(11, 140, 191, 0.2);
+  color: #ffffff;  /* чуть темнее для контраста */
+  text-shadow: 0 0 6px rgba(25, 118, 210, 0.5);
+}
+
+/* Ховер — как у тебя было */
+.app-tabs .q-tab:hover {
+  transform: translateY(-2px);
+  background: rgba(16, 79, 237, 0.5); /* чуть светлее при наведении */
+}
+
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-footer {
+  background: #f0f0f0;                    
+  border-top: 1px solid rgba(0,0,0,0.08); 
+  padding: 16px 24px;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08); 
+  border-radius: 12px 12px 0 0;             
+  position: relative; 
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+}
+
+
+</style>
