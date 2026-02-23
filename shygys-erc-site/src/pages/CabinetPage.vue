@@ -90,14 +90,14 @@
                 <q-icon name="numbers" />
               </q-item-section>
 
-              <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);font-weight: 600;gap: 16px;color: #123046;">
+              <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);font-weight: 500;gap: 16px;color: #123046;">
                 {{ t('ls') }} № {{ account.AccountID }}
               </q-item-section>
 
       
             </template>
 
-            <div style="display: flex;justify-content: right; margin-top:10px;margin-bottom:10px;font-size:15px;margin-right: 20px;">
+            <div style="display: flex;justify-content: right; margin-top:10px;margin-bottom:10px;font-size:15px;margin-right: 20px;color: #123046;">
                 {{ account.Address }}
             </div>
             <q-separator />
@@ -110,12 +110,12 @@
                   <q-icon name="info_outline" />
                 </q-item-section>
 
-                <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);font-weight: 600;gap: 16px;color: #123046;">
+                <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);gap: 16px;color: #123046;">
                   {{ t('infoProvider') }}
                 </q-item-section>
               </template>
 
-              <div v-if="account.AccountsOrg!=null" style="margin-right:20px">
+              <div v-if="account.AccountsOrg!=null" style="margin-right:20px;color: #123046;">
 
                 <div
                   v-for="org in account.AccountsOrg || []"
@@ -141,7 +141,7 @@
 
               </div>
 
-              <div v-else class="column items-center text-grey-5">
+              <div v-else class="column items-center text-grey-5" style="color: #123046;">
                 <div style="margin:10px 0">
                   <q-icon name="info" size="30px" class="q-mb-sm" />
                   {{ t('noInfoAboutProviders') }}
@@ -159,17 +159,17 @@
                   <q-icon name="article" />
                 </q-item-section>
 
-                <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);font-weight: 600;gap: 16px;color: #123046;">
+                <q-item-section style="font-size:clamp(14px, 1.8vw, 16px);gap: 16px;color: #123046;">
                   {{ t('curMonthNach') }}
                 </q-item-section>
               </template>
 
-              <div v-if="account.billing.Calcs[0].Providers!=null">
+              <div v-if="account.billing.Calcs[0].Providers!=null" style="color: #123046;" >
                  
                 <div
                   v-for="calc in account.billing.Calcs || []"
                   :key="calc.CalcMonth"
-                  class="billing-expansion" style="margin-right:20px"
+                  class="billing-expansion" style="margin-right:20px;"
                 >
 
                   <div
@@ -313,7 +313,7 @@
               class="col"
               style="margin-top:15px; margin-left:15px;color:blue;display:flex;justify-content:right;"
             >
-            <div style="margin-right:10px;color:blue">
+            <div style="margin-right:10px;color: #123046;">
                 <q-input v-model="selectedMonth" type="month" :label="t('monthCreate')" outlined dense />
             </div>
 
@@ -355,7 +355,7 @@
         {{t('settings') }}</q-card-section>
       <q-separator/>
       <q-card-section>
-        <div class="row items-center justify-between q-mb-md" >
+        <div class="row items-center justify-between q-mb-md" style="color: #123046;" >
           <div>
               <q-toggle v-model="isM" :label="t('notPaper')" color="primary"/>
           </div>
@@ -697,9 +697,10 @@ setup(props, {emit}) {
 }
 
 .billing-table th {
-  background-color: #e0e7ff;
+  background-color: #f3f3ff;
   text-align: center;
   font-weight: 600;
+  color: #123046;
 }
 .billing-table td {
   text-align: center;
@@ -725,7 +726,7 @@ setup(props, {emit}) {
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 10px;
-background-color: #e0e7ff;
+background-color: #f3f3ff;
 }
 
 .card-field {
