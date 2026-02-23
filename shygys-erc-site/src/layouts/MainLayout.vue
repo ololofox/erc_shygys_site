@@ -1,11 +1,12 @@
 <template>
     
       
-    <q-layout view="hHh lpR fFf">
+    <q-layout view="hhh lpR fFf">
 
     <!-- HEADER -->
-     
-    <q-header elevated class="app-header">
+     <LanguageSwitcher />
+
+    <q-header elevated class="app-header" :reveal="false">
       <teleport to="body">
         <div class="global-overlay" v-if="isLoading" >
           <div style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
@@ -17,8 +18,8 @@
         </div>
       </teleport>
       
-      <LanguageSwitcher />
-
+      
+    
       <!-- Картинка с текстом -->
       <div class="header-image">
         <img src="/header.png" alt="header" />
@@ -157,7 +158,7 @@ export default defineComponent({
 /* Хедер */
 .app-header {
   min-height: clamp(150px, 32vw, 300px);
-  max-height: 400px;
+  max-height: 200px;
   padding: 0;
   display: flex;
   flex-direction: column;

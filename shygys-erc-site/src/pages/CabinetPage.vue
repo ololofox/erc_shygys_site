@@ -181,7 +181,7 @@
                       <strong>{{ provider.ProviderName }}</strong>
                     </div>
                     
-                    <q-markup-table dense flat bordered class="billing-table">
+                    <q-markup-table dense flat bordered class="billing-table" v-if="$q.screen.gt.sm">
                       <thead>
                         <tr>
                           <th>{{ t('usluga') }}</th>
@@ -250,6 +250,47 @@
                         </tr>
                       </tbody>
                     </q-markup-table>
+                    
+
+
+
+<div v-else class="billing-cards"  >
+      <div
+        v-for="row in provider.Rows"
+        :key="row.ServiceName"
+        class="billing-card" 
+      >
+        <div class="card-field"><strong>{{ t('usluga') }}:</strong> {{ row.ServiceName }}</div>
+        <div class="card-field"><strong>{{ t('saldoNach') }}:</strong> {{ row.SumSaldoBegin }}</div>
+        <div class="card-field"><strong>{{ t('oplata') }}:</strong> {{ row.SumPay }}</div>
+
+        <div class="card-field">
+          <strong>{{ t('prevPoks') }}:</strong>
+          <div v-for="(pok, idx) in row.PokRow" :key="'pay'+idx">{{ pok.PayCount }}</div>
+        </div>
+
+        <div class="card-field">
+          <strong>{{ t('curPoks') }}:</strong>
+          <div v-for="(pok, idx) in row.PokRow" :key="'check'+idx">{{ pok.CheckCount }}</div>
+        </div>
+
+        <div class="card-field">
+          <strong>{{ t('count') }}:</strong>
+          <div v-for="(pok, idx) in row.PokRow" :key="'cons'+idx">{{ pok.Consumption }}</div>
+        </div>
+
+        <div class="card-field">
+          <strong>{{ t('cost') }}:</strong>
+          <div v-for="(pok, idx) in row.PokRow" :key="'tariff'+idx">{{ pok.Tariff }}</div>
+        </div>
+
+        <div class="card-field"><strong>{{ t('nach') }}:</strong> {{ row.SumCalc }}</div>
+        <div class="card-field"><strong>{{ t('penya') }}:</strong> {{ row.SumPen }}</div>
+        <div class="card-field"><strong>{{ t('pereraschet') }}:</strong> {{ row.SumRecalc }}</div>
+        <div class="card-field"><strong>{{ t('toOplata') }}:</strong> {{ row.SumSaldoEnd }}</div>
+      </div>
+    </div>
+                    
 
                   </div>
 
@@ -673,4 +714,24 @@ setup(props, {emit}) {
 .dialog-card {
   border-radius: 12px;
 }
+
+.billing-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.billing-card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+background-color: #e0e7ff;
+}
+
+.card-field {
+  padding: 2px 0;
+  word-break: break-word;
+}
+
+
 </style>

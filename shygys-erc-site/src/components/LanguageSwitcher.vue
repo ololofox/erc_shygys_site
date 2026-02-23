@@ -52,7 +52,7 @@ export default {
 
 <style scoped>
 .language-switcher {
-  position: fixed;
+  position: absolute; /* вместо fixed */
   top: 10px;
   right: 10px;
   display: flex;
@@ -60,8 +60,9 @@ export default {
   background-color: rgba(0, 0, 0, 0.6);
   border-radius: 5px;
   padding: 5px;
-  z-index: 1000;
+  z-index: 99999;
 }
+
 
 .lang-btn {
   display: flex;
