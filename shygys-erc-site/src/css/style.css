@@ -1,14 +1,14 @@
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7); 
-    z-index: 9999; 
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+}
 
 .global-overlay {
   position: fixed;
@@ -22,7 +22,7 @@
   align-items: center;
 }
 
-  hr {
+hr {
   border: none;
   height: 1px;
   background: #e0e0e0;
@@ -33,12 +33,14 @@
   border-radius: 8px;
   text-transform: none;
   font-weight: 500;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .button-actions .q-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .button-actions {
@@ -52,7 +54,15 @@
 }
 
 .main-autor {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-box {
+  background: rgb(239, 239, 252);
+  border-radius: 16px;
+  padding: clamp(16px, 2vw, 28px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
