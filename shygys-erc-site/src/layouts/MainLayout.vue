@@ -1,117 +1,97 @@
 <template>
-    
-      
-    <q-layout view="hhh lpR fFf">
-
+  <q-layout view="hhh lpR fFf">
     <!-- HEADER -->
-     <LanguageSwitcher />
+    <LanguageSwitcher />
 
     <q-header elevated class="app-header" :reveal="false">
       <teleport to="body">
-        <div class="global-overlay" v-if="isLoading" >
-          <div style="position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
-            <q-spinner-facebook
-              color="yellow"
-              size="4em"
-            />
+        <div class="global-overlay" v-if="isLoading">
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+            <q-spinner-facebook color="yellow" size="4em" />
           </div>
         </div>
       </teleport>
-      
-      
-    
+
       <!-- Картинка с текстом -->
       <div class="header-image">
         <img src="/header.png" alt="header" />
 
         <div class="header-overlay">
           <div class="header-text">
-            <h1 class="header-title main-title">{{t('title')}}</h1>
+            <h1 class="header-title main-title">{{ t('title') }}</h1>
             <h3 class="header-title sub-title">
-              {{t('secondTitle')}}
+              {{ t('secondTitle') }}
             </h3>
           </div>
         </div>
       </div>
 
       <!-- Меню -->
-      <q-tabs 
-        :model-value="activeTab"
-        inline-label 
-        no-caps    
-        :breakpoint="0"
-        class="app-tabs"
-      >
+      <q-tabs :model-value="activeTab" inline-label no-caps :breakpoint="0" class="app-tabs">
         <q-tab name="main" :label="t('home')" @click="goMain" />
-        <q-tab name="feedback" :label="t('feedback')" @click="goFeedback"  />              
-        <q-tab name="autor" :label="t('personalAccount')" @click="goAutor" />              
+        <q-tab name="feedback" :label="t('feedback')" @click="goFeedback" />
+        <q-tab name="autor" :label="t('personalAccount')" @click="goAutor" />
       </q-tabs>
-
     </q-header>
 
     <!-- BODY -->
     <q-page-container v-show="!isInfoLoading">
-      
-<!-- Overlay для спиннера -->
+      <!-- Overlay для спиннера -->
 
-
-
-          <router-view @isLoadingChanged="handleIsLoadingChange"  @isInfoLoadingChanged="handleIsInfoLoadingChange" />
-
+      <router-view
+        @isLoadingChanged="handleIsLoadingChange"
+        @isInfoLoadingChanged="handleIsInfoLoadingChange"
+      />
     </q-page-container>
-
   </q-layout>
-
-
 </template>
 
 <script>
-import LanguageSwitcher from "components/LanguageSwitcher.vue";
+import LanguageSwitcher from 'components/LanguageSwitcher.vue'
 import { useI18n } from 'vue-i18n'
-import { defineComponent, watch, ref, computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import cookies from "src/cookies";
+import { defineComponent, ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import cookies from 'src/cookies'
 
 export default defineComponent({
   components: {
-    LanguageSwitcher
+    LanguageSwitcher,
   },
   setup() {
-    const { t, locale } = useI18n();
-    const isLoading = ref(false);
-    const isInfoLoading = ref(false);
-    const router = useRouter();
-    const route = useRoute();
+    const { t, locale } = useI18n()
+    const isLoading = ref(false)
+    const isInfoLoading = ref(false)
+    const router = useRouter()
+    const route = useRoute()
 
-    const updateTitle = () => {
-      document.title = t('titleBrow');
-    };
+    /*const updateTitle = () => {
+      document.title = t('titleBrow')
+    }
+
+    // Слушаем изменения локали
+    watch(locale, () => {
+      updateTitle()
+    })*/
 
     const activeTab = computed(() => route.meta.section ?? 'main')
 
     const goMain = () => {
-        router.push({ name: 'main' })
+      router.push({ name: 'main' })
     }
 
     const goFeedback = () => {
-        router.push({ name: 'feedback' })
+      router.push({ name: 'feedback' })
     }
 
     const goAutor = () => {
-        const lss = cookies.getValue('ls')
+      const lss = cookies.getValue('ls')
 
-        if (lss != null) {
-            router.push({ name: 'cabinet' })
-        } else {
-            router.push({ name: 'autoriz' })
-        }
+      if (lss != null) {
+        router.push({ name: 'cabinet' })
+      } else {
+        router.push({ name: 'autoriz' })
+      }
     }
-
-
-    // Слушаем изменения локали
-    watch(locale, () => {
-      updateTitle();
-    });
 
     const handleIsLoadingChange = (newValue) => {
       isLoading.value = newValue
@@ -122,7 +102,7 @@ export default defineComponent({
     }
 
     /*<q-footer class="app-footer">
-       
+
       <div class="footer-content">
         <div class="footer-left">
               © {{ new Date().getFullYear() }} {{ t('title') }}
@@ -132,7 +112,6 @@ export default defineComponent({
         </div>
       </div>
     </q-footer>*/
-
 
     return {
       t,
@@ -145,16 +124,13 @@ export default defineComponent({
       handleIsInfoLoadingChange,
       goAutor,
       goFeedback,
-      goMain
+      goMain,
     }
-  }
+  },
 })
 </script>
 
 <style scoped>
-
-
-
 /* Хедер */
 .app-header {
   min-height: clamp(150px, 32vw, 300px);
@@ -170,14 +146,13 @@ export default defineComponent({
   height: 100%;
   width: 100%;
   overflow: hidden;
-
 }
 
 .header-image img {
   width: 100%;
   height: 100%;
-  object-fit:cover;
-  display:block;
+  object-fit: cover;
+  display: block;
 }
 
 /* Затемнение + текст */
@@ -213,35 +188,30 @@ export default defineComponent({
   opacity: 0.9;
 }
 
-
-
-
 /* Контейнер — фон табов */
 .app-tabs {
   font-weight: 500;
   background: rgb(18, 72, 94);
   padding: 8px;
-  display: flex;        /* flex-контейнер для кнопок */
-  gap: 8px;             /* расстояние между кнопками */
+  display: flex; /* flex-контейнер для кнопок */
+  gap: 8px; /* расстояние между кнопками */
 }
 
 /* Все табы — как кнопки */
 .app-tabs .q-tab {
-  flex: 1;               /* одинаковая ширина */
+  flex: 1; /* одинаковая ширина */
   border-radius: 0px;
   transition: all 0.3s ease;
-  background: rgba(255,255,255,0.05); /* легкий фон для неактивных */
+  background: rgba(255, 255, 255, 0.05); /* легкий фон для неактивных */
   color: white;
   text-align: center;
   padding: 8px 12px;
-  
 }
 
 /* Активный таб */
 .app-tabs .q-tab--active {
-  
   background: rgba(11, 140, 191, 0.2);
-  color: #ffffff;  /* чуть темнее для контраста */
+  color: #ffffff; /* чуть темнее для контраста */
   text-shadow: 0 0 6px rgba(25, 118, 210, 0.5);
 }
 
@@ -251,11 +221,10 @@ export default defineComponent({
   background: rgba(16, 79, 237, 0.5); /* чуть светлее при наведении */
 }
 
-
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 999;
   display: flex;
   justify-content: center;
@@ -263,12 +232,12 @@ export default defineComponent({
 }
 
 .app-footer {
-  background: #f0f0f0;                    
-  border-top: 1px solid rgba(0,0,0,0.08); 
+  background: #f0f0f0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
   padding: 16px 24px;
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.08); 
-  border-radius: 12px 12px 0 0;             
-  position: relative; 
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px 12px 0 0;
+  position: relative;
 }
 
 .footer-content {
@@ -287,6 +256,4 @@ export default defineComponent({
     text-align: center;
   }
 }
-
-
 </style>
