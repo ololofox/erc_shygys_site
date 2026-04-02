@@ -2,23 +2,23 @@ import { defineStore } from 'pinia'
 
 export const mainStore = defineStore('mainStore', {
   state: () => ({
-    //routeAPI: 'http://10.250.180.144:8081/api/',
-    routeAPI: 'http://localhost:8081/api',
+    //routeAPI: 'http://localhost:8081/api/',
+    //routeAPI: 'http://91.147.113.202:8081/api',
     APIkey: 'bbc2a9b4da6439c27edb00288c42e17e4519b682d0201fbe',
     accessToken: null,
     lastFeedbackTime: null,
     lastRecoverPasswordTime: null,
   }),
   getters: {
-    getRouteAPI: (state) => state.routeAPI,
+    //getRouteAPI: (state) => state.routeAPI,
     getAPIkey: (state) => state.APIkey,
-    },
-  actions: {    
+  },
+  actions: {
     setLastFeedbackTime(date) {
-        this.lastFeedbackTime = date
+      this.lastFeedbackTime = date
     },
     setLastRecoverMailTime(date) {
-        this.lastRecoverPasswordTime = date
+      this.lastRecoverPasswordTime = date
     },
     canSendFeedback() {
       if (!this.lastFeedbackTime) return true
@@ -37,8 +37,7 @@ export const mainStore = defineStore('mainStore', {
       const diffMinutes = diffMs / 1000 / 60
 
       return diffMinutes >= 2
-    }
-    
+    },
   },
-  persist: true
+  persist: true,
 })

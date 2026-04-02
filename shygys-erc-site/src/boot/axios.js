@@ -9,8 +9,9 @@ export default boot(({ app }) => {
   const store = mainStore() // pinia уже подключен в main.js
 
   api = axios.create({
-    baseURL: store.getRouteAPI,
-    timeout: 10000
+    //baseURL: store.getRouteAPI,
+    baseURL: import.meta.env.VITE_API_URL,
+    timeout: 10000,
   })
 
   api.interceptors.request.use(
@@ -20,7 +21,7 @@ export default boot(({ app }) => {
       const userName = cookies.getValue('ls')
 
       const publicRoutes = ['/signIn', '/registration', 'resetPassword']
-      const isPublic = publicRoutes.some(route => config.url?.includes(route))
+      const isPublic = publicRoutes.some((route) => config.url?.includes(route))
 
       if (!isPublic) {
         if (token) config.headers.Session = token
@@ -30,7 +31,7 @@ export default boot(({ app }) => {
 
       return config
     },
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error),
   )
 
   // Глобально для компонентов Vue
