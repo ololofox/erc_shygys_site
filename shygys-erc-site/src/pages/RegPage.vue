@@ -1,7 +1,6 @@
 <template>
   <q-page class="main-autor">
-    <div
-      style="
+    <div style="
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
         width: clamp(300px, 35vw, 600px);
         margin: 50px auto;
@@ -9,60 +8,36 @@
         border: 0px solid #ccc;
         border-radius: 8px;
         background: #f9f9f9;
-      "
-    >
-      <div
-        style="
+      ">
+      <div style="
           font-size: 25px;
           margin-top: 20px;
           color: #123046;
           font-weight: 600;
           font-size: clamp(20px, 2.5vw, 28px);
-        "
-      >
+        ">
         {{ t('registrationTitle') }}
         <q-icon name="how_to_reg" size="24px" color="primary" />
       </div>
       <hr />
 
       <div style="margin-bottom: 5px">
-        <q-input
-          v-model="yourLS"
-          dense
-          outlined
-          :label="t('yourLS')"
-          @keydown.enter.prevent="checkAll"
-          @vue:before-update="changeNumber"
-        >
+        <q-input v-model="yourLS" dense outlined :label="t('yourLS')" @keydown.enter.prevent="checkAll"
+          @vue:before-update="changeNumber">
         </q-input>
       </div>
 
       <div style="margin-bottom: 5px">
-        <q-input
-          v-model="yourEmail"
-          dense
-          outlined
-          @keydown.enter.prevent="checkAll"
-          :label="t('yourEmail')"
-        >
+        <q-input v-model="yourEmail" dense outlined @keydown.enter.prevent="checkAll" :label="t('yourEmail')">
         </q-input>
       </div>
 
       <div style="margin-bottom: 5px">
-        <q-input
-          v-model="yourPassword"
-          dense
-          outlined
-          :label="t('yourPassword')"
-          :type="isPwd ? 'password' : 'text'"
-          @keydown.enter.prevent="checkAll"
-        >
+        <q-input v-model="yourPassword" dense outlined :label="t('yourPassword')" :type="isPwd ? 'password' : 'text'"
+          @keydown.enter.prevent="checkAll">
           <template v-slot:append>
-            <q-icon
-              :name="isPwd ? 'visibility_off' : 'visibility'"
-              class="cursor-pointer"
-              @click="isPwd = !isPwd"
-            ></q-icon>
+            <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+              @click="isPwd = !isPwd"></q-icon>
           </template>
         </q-input>
         <div style="color: blue; margin-left: 10px; margin-top: 5px">
@@ -71,33 +46,18 @@
       </div>
 
       <div style="margin-bottom: 5px">
-        <q-input
-          v-model="yourPassword2"
-          dense
-          outlined
-          :label="t('yourPassword2')"
-          :type="isPwd2 ? 'password' : 'text'"
-          @keydown.enter.prevent="checkAll"
-        >
+        <q-input v-model="yourPassword2" dense outlined :label="t('yourPassword2')" :type="isPwd2 ? 'password' : 'text'"
+          @keydown.enter.prevent="checkAll">
           <template v-slot:append>
-            <q-icon
-              :name="isPwd2 ? 'visibility_off' : 'visibility'"
-              class="cursor-pointer"
-              @click="isPwd2 = !isPwd2"
-            ></q-icon>
+            <q-icon :name="isPwd2 ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+              @click="isPwd2 = !isPwd2"></q-icon>
           </template>
         </q-input>
       </div>
 
       <div class="button-actions" style="justify-content: left">
-        <q-btn
-          style="margin-top: 10px"
-          color="primary"
-          icon="check"
-          no-caps
-          :label="t('registrationZa')"
-          @click="checkAll"
-        ></q-btn>
+        <q-btn style="margin-top: 10px" color="primary" icon="check" no-caps :label="t('registrationZa')"
+          @click="checkAll"></q-btn>
       </div>
     </div>
   </q-page>
@@ -127,6 +87,7 @@ export default defineComponent({
 
     const updateTitle = () => {
       document.title = t('titleRegistration') + ' | ' + t('title')
+      emit('isTitleChanged', t('titleLK'))
     }
 
     // Слушаем изменения локали

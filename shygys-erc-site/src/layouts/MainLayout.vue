@@ -3,7 +3,7 @@
     <!-- HEADER -->
     <LanguageSwitcher />
 
-    <q-header elevated class="app-header" :reveal="false">
+    <q-header elevated class="app-header" :reveal="false" style="background:rgb(18, 72, 94)">
       <teleport to="body">
         <div class="global-overlay" v-if="isLoading">
           <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
@@ -26,22 +26,57 @@
         </div>
       </div>
 
+      <q-toolbar v-if="$q.screen.lt.sm" style="background: rgb(18, 72, 94);">
+        <q-btn icon="menu" flat dense>
+          <q-menu anchor="bottom left" self="top left" fit transition-show="flip-right" transition-hide="flip-left">
+            <q-list style="min-width: 200px;background: white; font-weight:600; color:rgb(50, 50, 50)">
+              <q-item clickable @click="goMain">
+                <q-item-section avatar>
+                  <q-icon name="home" />
+                </q-item-section>
+                <q-item-section>{{ t('home') }}</q-item-section>
+              </q-item>
+              <q-separator></q-separator>
+              <q-item clickable @click="goFeedback">
+                <q-item-section avatar>
+                  <q-icon name="feedback" />
+                </q-item-section>
+                <q-item-section>{{ t('titleFeedBack') }}</q-item-section>
+              </q-item>
+              <q-separator></q-separator>
+              <q-item clickable @click="goAutor">
+                <q-item-section avatar>
+                  <q-icon name="person" />
+                </q-item-section>
+                <q-item-section>{{ t('personalAccount') }}</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+        &nbsp; {{ curTitle }}
+      </q-toolbar>
+
       <!-- Меню -->
-      <q-tabs :model-value="activeTab" inline-label no-caps :breakpoint="0" class="app-tabs">
+      <q-tabs v-if="$q.screen.gt.xs" :model-value="activeTab" inline-label no-caps :breakpoint="0" class="app-tabs">
         <q-tab name="main" :label="t('home')" @click="goMain" />
-        <q-tab name="feedback" :label="t('feedback')" @click="goFeedback" />
+        <q-tab name="feedback" :label="t('titleFeedBack')" @click="goFeedback" />
         <q-tab name="autor" :label="t('personalAccount')" @click="goAutor" />
       </q-tabs>
+
+
+
     </q-header>
+
+
+
+
 
     <!-- BODY -->
     <q-page-container v-show="!isInfoLoading">
       <!-- Overlay для спиннера -->
 
-      <router-view
-        @isLoadingChanged="handleIsLoadingChange"
-        @isInfoLoadingChanged="handleIsInfoLoadingChange"
-      />
+      <router-view @isLoadingChanged="handleIsLoadingChange" @isInfoLoadingChanged="handleIsInfoLoadingChange"
+        @isTitleChanged="titleChanged" />
     </q-page-container>
   </q-layout>
 </template>
@@ -61,8 +96,10 @@ export default defineComponent({
     const { t, locale } = useI18n()
     const isLoading = ref(false)
     const isInfoLoading = ref(false)
+    const curTitle = ref('')
     const router = useRouter()
     const route = useRoute()
+
 
     /*const updateTitle = () => {
       document.title = t('titleBrow')
@@ -72,6 +109,7 @@ export default defineComponent({
     watch(locale, () => {
       updateTitle()
     })*/
+
 
     const activeTab = computed(() => route.meta.section ?? 'main')
 
@@ -95,6 +133,10 @@ export default defineComponent({
 
     const handleIsLoadingChange = (newValue) => {
       isLoading.value = newValue
+    }
+
+    const titleChanged = (newValue) => {
+      curTitle.value = newValue
     }
 
     const handleIsInfoLoadingChange = (newValue) => {
@@ -125,6 +167,8 @@ export default defineComponent({
       goAutor,
       goFeedback,
       goMain,
+      curTitle,
+      titleChanged
     }
   },
 })
@@ -193,16 +237,20 @@ export default defineComponent({
   font-weight: 500;
   background: rgb(18, 72, 94);
   padding: 8px;
-  display: flex; /* flex-контейнер для кнопок */
-  gap: 8px; /* расстояние между кнопками */
+  display: flex;
+  /* flex-контейнер для кнопок */
+  gap: 8px;
+  /* расстояние между кнопками */
 }
 
 /* Все табы — как кнопки */
 .app-tabs .q-tab {
-  flex: 1; /* одинаковая ширина */
+  flex: 1;
+  /* одинаковая ширина */
   border-radius: 0px;
   transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.05); /* легкий фон для неактивных */
+  background: rgba(255, 255, 255, 0.05);
+  /* легкий фон для неактивных */
   color: white;
   text-align: center;
   padding: 8px 12px;
@@ -211,14 +259,16 @@ export default defineComponent({
 /* Активный таб */
 .app-tabs .q-tab--active {
   background: rgba(11, 140, 191, 0.2);
-  color: #ffffff; /* чуть темнее для контраста */
+  color: #ffffff;
+  /* чуть темнее для контраста */
   text-shadow: 0 0 6px rgba(25, 118, 210, 0.5);
 }
 
 /* Ховер — как у тебя было */
 .app-tabs .q-tab:hover {
   transform: translateY(-2px);
-  background: rgba(16, 79, 237, 0.5); /* чуть светлее при наведении */
+  background: rgba(16, 79, 237, 0.5);
+  /* чуть светлее при наведении */
 }
 
 .overlay {

@@ -1,52 +1,69 @@
 <template>
-  <q-page class="page-wrapper">
-    <div class="tabs-card">
-      <!-- Вкладки -->
-      <q-tabs
-        style="align-items: flex-start"
-        v-model="tab"
-        vertical
-        dense
-        no-caps
-        inline-label
-        class="tabs-left"
-        active-color="primary"
-        indicator-color="primary"
-      >
-        <q-tab name="tab1" icon="info" :label="t('aboutCompanyTitle')" />
-        <q-tab name="tab2" icon="list" :label="t('functionsCompanyTitle')" />
-        <q-tab name="tab3" icon="contact_mail" :label="t('contactsCompanyTitle')" />
-      </q-tabs>
+  <q-page>
 
-      <!-- Контент -->
-      <q-tab-panels v-model="tab" animated class="tab-content">
-        <q-tab-panel name="tab1">
-          <h5>{{ t('aboutCompanyTitle') }}</h5>
-          <div class="panel-box">
-            <p>
-              {{ t('aboutCompanyText') }}
-            </p>
-          </div>
-        </q-tab-panel>
+    <div style="
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        margin: 50px auto;
+        margin-left:clamp(0px, 4vw, 30px);
+        margin-right:clamp(0px, 4vw, 30px);
+        padding: 20px;
+        border: 0px solid #ccc;
+        border-radius: 8px;
+        background: #f9f9f9;
+      "> <!-- Вкладки -->
 
-        <q-tab-panel name="tab2">
-          <h5>{{ t('functionsCompanyTitle') }}</h5>
-          <div class="panel-box" style="white-space: pre-line">
-            <p>
-              {{ t('functionsCompanyText') }}
-            </p>
+      <q-carousel v-model="slide" height="auto" swipeable animated :control-type="controlType" control-color="primary"
+        navigation padding arrows class="text-primary rounded-borders" transition-prev="scale" transition-next="scale">
+        <q-carousel-slide name="about" class="column no-wrap flex-center">
+          <div style="
+                  width:100%;
+                  margin-top:20px;
+                  margin-bottom:20px;
+                  color: #123046;
+                  font-weight: 600;
+                  font-size: clamp(20px, 2.5vw, 28px);
+              ">
+            {{ t('aboutCompanyTitle') }}
           </div>
-        </q-tab-panel>
 
-        <q-tab-panel name="tab3">
-          <h5>{{ t('contactsCompanyTitle') }}</h5>
-          <div class="panel-box" style="white-space: pre-line">
-            <p>
-              {{ t('contactsCompanyText') }}
-            </p>
+          <div style="font-size:14px;color: #123046;">
+            <p>{{ t('aboutCompanyText') }}</p>
           </div>
-        </q-tab-panel>
-      </q-tab-panels>
+        </q-carousel-slide>
+        <q-carousel-slide name="functions" class="column no-wrap flex-center">
+          <div style="
+                  width:100%;
+                  margin-top:20px;
+                  margin-bottom:20px;
+                  color: #123046;
+                  font-weight: 600;
+                  font-size: clamp(20px, 2.5vw, 28px);
+              ">
+
+            {{ t('functionsCompanyTitle') }}
+          </div>
+          <p style="white-space: pre-line; font-size:14px;color: #123046;">
+            {{ t('functionsCompanyText') }}
+          </p>
+        </q-carousel-slide>
+        <q-carousel-slide name="contacts" class="column no-wrap flex-center">
+          <div style="
+                  width:100%;
+                  margin-top:20px;
+                  margin-bottom:20px;
+                  color: #123046;
+                  font-weight: 600;
+                  font-size: clamp(20px, 2.5vw, 28px);
+              ">
+            {{ t('contactsCompanyTitle') }}
+          </div>
+          <p style="white-space: pre-line;font-size:14px;color: #123046;">
+            {{ t('contactsCompanyText') }}
+          </p>
+        </q-carousel-slide>
+
+      </q-carousel>
+
     </div>
   </q-page>
 </template>
@@ -56,118 +73,70 @@ import { ref, defineComponent, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  setup() {
+  emits: ['isTitleChanged'],
+  setup(props, { emit }) {
     const tab = ref('tab1')
     const { t, locale } = useI18n()
-
-    onMounted(() => {
-      updateTitle()
-    })
+    const slide = ref('aboout')
+    const controlType = ref('flat')
 
     const updateTitle = () => {
       document.title = t('titleMain') + ' | ' + t('title')
+      emit('isTitleChanged', t('titleMain'))
     }
 
-    // Слушаем изменения локали
+    onMounted(() => {
+      updateTitle()
+      slide.value = 'about'
+    })
+
     watch(
-      () => locale.value, // обязательно обращаемся к .value
+      () => locale.value,
       () => {
         updateTitle()
-      },
+      }
     )
 
     return {
       tab,
       locale,
       t,
+      slide,
+      controlType
     }
-  },
+  }
 })
 </script>
 
 <style scoped>
 .page-wrapper {
-  padding: 0;
-  background: linear-gradient(135deg, #f5f7fa, #eef2f7);
-  min-height: calc(100vh - 0px);
+  padding: 16px;
 }
 
-/* Основная карточка */
 .tabs-card {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  min-height: 400px;
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  transition: all 0.3s ease;
+  flex-direction: column;
 }
 
-/* Левая панель */
-.tabs-left {
-  min-width: 220px;
-  background: #fafafa;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 10px;
+.tab-content {
+  margin-top: 5px;
 }
 
-/* Стили вкладок */
 .q-tab {
   border-radius: 12px;
-  margin-bottom: 6px;
-  transition: all 0.25s ease;
-  font-weight: 500;
+  margin: 4px;
+  background: #f5f5f5;
+  transition: all 0.2s ease;
 }
 
-.q-tab:hover {
-  background: rgba(25, 118, 210, 0.08);
-}
 
-/* Контент */
-.tab-content {
-  flex: 1;
-  padding: 0 clamp(20px, 3vw, 40px) clamp(20px, 3vw, 40px);
-}
-
-/* Заголовки */
-.tab-content h5 {
+.q-tab--active {
+  transform: scale(1);
   font-weight: 600;
-  margin-bottom: 15px;
-
-  color: #1976d2;
 }
 
-/* Текст */
-.tab-content p,
-.tab-content li {
-  font-size: clamp(14px, 1.2vw, 16px);
-  line-height: 1.7;
-  color: #444;
-}
-
-.tab-content ul {
-  padding-left: 20px;
-  margin-top: 10px;
-}
-
-/* Мобильная адаптация */
-@media (max-width: 768px) {
-  .tabs-card {
-    flex-direction: column;
-  }
-
-  .tabs-left {
-    min-width: 100%;
-    border-right: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-}
-
-/* лёгкий hover-эффект */
-.panel-box:hover {
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+.q-tab:not(.q-tab--active) {
+  opacity: 0.4;
+  transform: scale(0.5);
 }
 </style>

@@ -4,50 +4,29 @@
     <q-dialog v-model="dialogChangePassword">
       <q-card style="min-width: 320px" class="q-elevation-6">
         <q-card-section>
-          <div
-            style="
+          <div style="
               margin-top: 15px;
               color: #123046;
               font-weight: 600;
               font-size: clamp(20px, 2.5vw, 28px);
-            "
-          >
+            ">
             {{ t('changingPassword') }}
           </div>
         </q-card-section>
         <q-separator />
         <q-card-section>
-          <q-input
-            dense
-            v-model="passwordOld"
-            :label="t('oldPassword')"
-            outlined
-            :type="isPwdOld ? 'password' : 'text'"
-            @keyup.enter="checkAll"
-          >
+          <q-input dense v-model="passwordOld" :label="t('oldPassword')" outlined :type="isPwdOld ? 'password' : 'text'"
+            @keyup.enter="checkAll">
             <template v-slot:append>
-              <q-icon
-                :name="isPwdOld ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwdOld = !isPwdOld"
-              />
+              <q-icon :name="isPwdOld ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                @click="isPwdOld = !isPwdOld" />
             </template>
           </q-input>
-          <q-input
-            dense
-            v-model="passwordNew"
-            :label="t('newPassword')"
-            outlined
-            :type="isPwdNew ? 'password' : 'text'"
-            class="q-mt-md"
-            @keyup.enter="checkAll"
-          >
+          <q-input dense v-model="passwordNew" :label="t('newPassword')" outlined :type="isPwdNew ? 'password' : 'text'"
+            class="q-mt-md" @keyup.enter="checkAll">
             <template v-slot:append>
-              <q-icon
-                :name="isPwdNew ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwdNew = !isPwdNew"
-              />
+              <q-icon :name="isPwdNew ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                @click="isPwdNew = !isPwdNew" />
             </template>
           </q-input>
         </q-card-section>
@@ -63,44 +42,27 @@
     <q-dialog v-model="dialogChangeEmail">
       <q-card style="min-width: 320px" class="q-elevation-6">
         <q-card-section>
-          <div
-            style="
+          <div style="
               font-size: 20px;
               margin-top: 15px;
               color: #123046;
               font-weight: 600;
               font-size: clamp(20px, 2.5vw, 28px);
-            "
-          >
+            ">
             {{ t('changingEmail') }}
           </div>
         </q-card-section>
         <q-separator />
         <q-card-section>
-          <q-input
-            dense
-            v-model="passwordEmail"
-            :label="t('yourPassword')"
-            outlined
-            :type="isPwdEmail ? 'password' : 'text'"
-            @keydown.enter.prevent="checkAllEmail"
-          >
+          <q-input dense v-model="passwordEmail" :label="t('yourPassword')" outlined
+            :type="isPwdEmail ? 'password' : 'text'" @keydown.enter.prevent="checkAllEmail">
             <template v-slot:append>
-              <q-icon
-                :name="isPwdEmail ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwdEmail = !isPwdEmail"
-              />
+              <q-icon :name="isPwdEmail ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                @click="isPwdEmail = !isPwdEmail" />
             </template>
           </q-input>
-          <q-input
-            dense
-            v-model="newEmail"
-            :label="t('newEmail')"
-            outlined
-            class="q-mt-md"
-            @keydown.enter.prevent="checkAllEmail"
-          />
+          <q-input dense v-model="newEmail" :label="t('newEmail')" outlined class="q-mt-md"
+            @keydown.enter.prevent="checkAllEmail" />
         </q-card-section>
         <q-card-actions align="right" class="button-actions">
           <q-btn color="grey" :label="t('cancel')" @click="closeChangeEmail" />
@@ -112,30 +74,25 @@
     <q-dialog v-model="dialogAddZayav">
       <q-card style="min-width: 320px" class="q-elevation-6">
         <q-card-section>
-          <div
-            style="
+          <div style="
               font-size: 20px;
               margin-top: 15px;
               color: #123046;
               font-weight: 600;
               font-size: clamp(20px, 2.5vw, 28px);
-            "
-          >
+            ">
             {{ t('zayav') }}
           </div>
         </q-card-section>
         <q-separator />
 
         <q-card-section style="white-space: pre-line">
-          <div
-            class="panel-box"
-            style="
+          <div class="panel-box" style="
               font-size: 10px;
               color: #123046;
               font-weight: 600;
               font-size: clamp(10px, 1.25vw, 14px);
-            "
-          >
+            ">
             {{ t('txtZayav') }}
           </div>
         </q-card-section>
@@ -149,15 +106,13 @@
 
     <!-- Заголовок -->
     <div class="row items-center justify-between q-mb-lg">
-      <div
-        style="
+      <div style="
           font-size: clamp(20px, 2.5vw, 28px);
           font-weight: 600;
           margin-top: 25px;
           gap: 16px;
           color: #123046;
-        "
-      >
+        ">
         <q-icon name="person" size="24px" color="primary" />
         {{ t('personalAccount') }}
       </div>
@@ -168,15 +123,13 @@
       <!-- Лицевые счета -->
       <div v-if="consumerInfo?.Accounts?.length">
         <q-card class="accounts-card shadow-2">
-          <q-card-section
-            style="
+          <q-card-section style="
               font-size: clamp(16px, 2vw, 20px);
               font-weight: 600;
               margin-top: 25px;
               gap: 16px;
               color: #123046;
-            "
-          >
+            ">
             {{ t('infoLS') }}
           </q-card-section>
 
@@ -184,33 +137,25 @@
 
           <q-card-section>
             <!-- ===== Лицевой счет ===== -->
-            <q-expansion-item
-              v-for="account in consumerInfo.Accounts"
-              :key="account.AccountID"
-              header-class="account-header"
-              expand-icon-class="text-primary"
-              group="accounts"
-            >
+            <q-expansion-item v-for="account in consumerInfo.Accounts" :key="account.AccountID"
+              header-class="account-header" expand-icon-class="text-primary" group="accounts">
               <!-- Header счета -->
               <template #header>
                 <q-item-section avatar style="color: royalblue">
                   <q-icon name="numbers" />
                 </q-item-section>
 
-                <q-item-section
-                  style="
+                <q-item-section style="
                     font-size: clamp(14px, 1.8vw, 16px);
                     font-weight: 500;
                     gap: 16px;
                     color: #123046;
-                  "
-                >
+                  ">
                   {{ t('ls') }} № {{ account.AccountID }}
                 </q-item-section>
               </template>
 
-              <div
-                style="
+              <div style="
                   display: flex;
                   justify-content: right;
                   margin-top: 10px;
@@ -218,8 +163,7 @@
                   font-size: 15px;
                   margin-right: 20px;
                   color: #123046;
-                "
-              >
+                ">
                 {{ account.Address }}
               </div>
               <q-separator />
@@ -231,19 +175,13 @@
                     <q-icon name="info_outline" />
                   </q-item-section>
 
-                  <q-item-section
-                    style="font-size: clamp(14px, 1.8vw, 16px); gap: 16px; color: #123046"
-                  >
+                  <q-item-section style="font-size: clamp(14px, 1.8vw, 16px); gap: 16px; color: #123046">
                     {{ t('infoProvider') }}
                   </q-item-section>
                 </template>
 
                 <div v-if="account.AccountsOrg != null" style="margin-right: 20px; color: #123046">
-                  <div
-                    v-for="org in account.AccountsOrg || []"
-                    :key="org.ID"
-                    class="org-card q-mb-md q-pa-sm"
-                  >
+                  <div v-for="org in account.AccountsOrg || []" :key="org.ID" class="org-card q-mb-md q-pa-sm">
                     <div style="font-size: 15px; margin-bottom: 10px">
                       {{ org.Provider }}
                     </div>
@@ -273,44 +211,26 @@
                     <q-icon name="article" />
                   </q-item-section>
 
-                  <q-item-section
-                    style="font-size: clamp(14px, 1.8vw, 16px); gap: 16px; color: #123046"
-                  >
+                  <q-item-section style="font-size: clamp(14px, 1.8vw, 16px); gap: 16px; color: #123046">
                     {{ t('curMonthNach') }}
                   </q-item-section>
                 </template>
 
-                <div
-                  v-if="
-                    account.billing &&
-                    account.billing.Calcs &&
-                    account.billing.Calcs.length &&
-                    account.billing.Calcs[0].Providers
-                  "
-                  style="color: #123046"
-                >
-                  <div
-                    v-for="calc in account.billing.Calcs || []"
-                    :key="calc.CalcMonth"
-                    class="billing-expansion"
-                    style="margin-right: 20px"
-                  >
-                    <div
-                      v-for="provider in calc.Providers || []"
-                      :key="provider.ProviderName"
-                      class="provider-card q-pa-md q-mb-md"
-                    >
+                <div v-if="
+                  account.billing &&
+                  account.billing.Calcs &&
+                  account.billing.Calcs.length &&
+                  account.billing.Calcs[0].Providers
+                " style="color: #123046">
+                  <div v-for="calc in account.billing.Calcs || []" :key="calc.CalcMonth" class="billing-expansion"
+                    style="margin-right: 20px">
+                    <div v-for="provider in calc.Providers || []" :key="provider.ProviderName"
+                      class="provider-card q-pa-md q-mb-md">
                       <div class="q-mb-sm">
                         <strong>{{ provider.ProviderName }}</strong>
                       </div>
 
-                      <q-markup-table
-                        dense
-                        flat
-                        bordered
-                        class="billing-table"
-                        v-if="$q.screen.gt.sm"
-                      >
+                      <q-markup-table dense flat bordered class="billing-table" v-if="$q.screen.gt.sm">
                         <thead>
                           <tr>
                             <th>{{ t('usluga') }}</th>
@@ -366,11 +286,7 @@
                       </q-markup-table>
 
                       <div v-else class="billing-cards">
-                        <div
-                          v-for="row in provider.Rows"
-                          :key="row.ServiceName"
-                          class="billing-card"
-                        >
+                        <div v-for="row in provider.Rows" :key="row.ServiceName" class="billing-card">
                           <div class="card-field">
                             <strong>{{ t('usluga') }}:</strong> {{ row.ServiceName }}
                           </div>
@@ -436,33 +352,19 @@
               </q-expansion-item>
 
               <div class="row q-mb-sm button-actions">
-                <div
-                  class="col"
-                  style="
+                <div class="col" style="
                     margin-top: 15px;
                     margin-left: 15px;
                     color: blue;
                     display: flex;
                     justify-content: right;
-                  "
-                >
+                  ">
                   <div style="margin-right: 10px; color: #123046">
-                    <q-input
-                      v-model="selectedMonth"
-                      type="month"
-                      :label="t('monthCreate')"
-                      outlined
-                      dense
-                    />
+                    <q-input v-model="selectedMonth" type="month" :label="t('monthCreate')" outlined dense />
                   </div>
 
-                  <q-btn
-                    color="primary"
-                    no-caps
-                    :label="t('pdfDownload')"
-                    @click="downloadPDF(account.AccountID)"
-                    style="margin-right: 20px"
-                  />
+                  <q-btn color="primary" no-caps :label="t('pdfDownload')" @click="downloadPDF(account.AccountID)"
+                    style="margin-right: 20px" />
                 </div>
               </div>
             </q-expansion-item>
@@ -478,17 +380,14 @@
 
       <!-- Настройки -->
       <q-card class="settings-card shadow-2 q-mb-xl" style="margin-top: 20px">
-        <q-card-section
-          style="
+        <q-card-section style="
             font-size: clamp(16px, 2vw, 20px);
             font-weight: 600;
             margin-top: 25px;
             gap: 16px;
             color: #123046;
-          "
-        >
-          {{ t('settings') }}</q-card-section
-        >
+          ">
+          {{ t('settings') }}</q-card-section>
         <q-separator />
         <q-card-section>
           <div class="row items-center justify-between q-mb-md" style="color: #123046">
@@ -500,10 +399,7 @@
             </div>
           </div>
           <q-separator />
-          <div
-            class="row q-gutter-md button-actions"
-            style="margin-top: 10px; display: flex; justify-content: center"
-          >
+          <div class="row q-gutter-md button-actions" style="margin-top: 10px; display: flex; justify-content: center">
             <q-btn no-caps color="red" :label="t('changePassword')" @click="changePassword" />
             <q-btn no-caps color="red" :label="t('changeEmail')" @click="changeEmail" />
           </div>
@@ -594,6 +490,7 @@ export default defineComponent({
 
     const updateTitle = () => {
       document.title = t('titleLK') + ' | ' + t('title')
+      emit('isTitleChanged', t('titleLK'))
     }
 
     // Слушаем изменения локали
@@ -836,6 +733,7 @@ export default defineComponent({
   border-radius: 12px;
   transition: all 0.3s;
 }
+
 .settings-card:hover {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
@@ -845,6 +743,7 @@ export default defineComponent({
   font-weight: 600;
   font-size: 16px;
 }
+
 .account-item {
   margin-bottom: 12px;
 }
@@ -858,14 +757,17 @@ export default defineComponent({
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   margin-top: 10px;
 }
+
 .org-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
+
 .org-header {
   font-weight: 500;
   font-size: 15px;
 }
+
 .org-info div {
   margin-bottom: 4px;
 }
@@ -879,6 +781,7 @@ export default defineComponent({
   margin-top: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
 .provider-card:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -890,6 +793,7 @@ export default defineComponent({
   font-weight: 600;
   color: #123046;
 }
+
 .billing-table td {
   text-align: center;
 }

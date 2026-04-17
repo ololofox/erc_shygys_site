@@ -18,25 +18,11 @@
         </div>
 
         <div class="feedback-field">
-          <q-input
-            v-model="yourreply"
-            outlined
-            type="textarea"
-            :label="t('textReply')"
-            rows="7"
-            dense
-          />
+          <q-input v-model="yourreply" outlined type="textarea" :label="t('textReply')" rows="7" dense />
         </div>
 
         <div class="button-actions">
-          <q-btn
-            no-caps
-            color="red"
-            unelevated
-            icon="mail"
-            :label="t('send')"
-            @click="checkAll()"
-          />
+          <q-btn no-caps color="red" unelevated icon="mail" :label="t('send')" @click="checkAll()" />
         </div>
       </div>
     </div>
@@ -65,6 +51,7 @@ export default defineComponent({
 
     const updateTitle = () => {
       document.title = t('titleFeedBack') + ' | ' + t('title')
+      emit('isTitleChanged', t('titleFeedBack'))
     }
 
     // Слушаем изменения локали
